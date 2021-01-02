@@ -7,11 +7,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int currentPoints = 0;
     [SerializeField] int allPoints = 0;
 
+    [Header("References")]
+    [SerializeField] Inventory inventory = null;
+
     InputManager inputManager;
     ZoneManager zoneManager;
     PlayerGUI gui;
     
     Interactable interaction = null;
+
+    float mouseScrollY;
 
     void Start(){
         inputManager = InputManager.Instance;
@@ -30,7 +35,7 @@ public class PlayerController : MonoBehaviour
             if(inputManager.InteractButtonPressed()){
                 int costOfInteraction = interaction.GetInteractionCost();
                 if(costOfInteraction <= currentPoints){
-                    interaction.Interact();
+                    interaction.Interact(this);
                     RemovePoints(costOfInteraction);
 
                     interaction = null;
@@ -40,7 +45,14 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Insufficent Funds");
                 }          
             }
-        }    
+        }
+
+        // WEAPON SWAPPING
+        mouseScrollY = inputManager.GetMouseScrollY();
+        if(mouseScrollY > 0 || mouseScrollY < 0){
+            if(inventory != null)
+                inventory.SwapWeapon(mouseScrollY);
+        }
     }
 
     public void AddPoints(int pointsToAdd){
@@ -54,6 +66,10 @@ public class PlayerController : MonoBehaviour
         currentPoints -= pointsToRemove;
 
         gui.UpdateDisplayedPoints(currentPoints);
+    }
+
+    public void AddWeaponToInventory(Weapon weapon){
+        inventory.AddNewWeapon(weapon);
     }
 
     public int GetCurrentPoints(){

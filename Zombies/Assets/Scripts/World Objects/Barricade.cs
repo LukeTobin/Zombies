@@ -6,7 +6,7 @@ public class Barricade : Interactable
 {
     [SerializeField] int barriers = 5;
 
-    public override void Interact()
+    public override void Interact(PlayerController interactor)
     {
         if(barriers < 5){
             barriers++;

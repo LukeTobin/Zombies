@@ -9,7 +9,7 @@ public class Interactable : MonoBehaviour
     [Space]
     [SerializeField] string interactionText = "";
 
-    public virtual void Interact(){
+    public virtual void Interact(PlayerController interactor){
         Debug.Log("interacted");     
     }
 

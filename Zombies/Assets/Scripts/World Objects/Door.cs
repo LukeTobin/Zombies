@@ -6,7 +6,7 @@ public class Door : Interactable
 {
     [SerializeField] List<Zone> openZones = null;
 
-    public override void Interact(){
+    public override void Interact(PlayerController interactor){
         if(openZones != null)
             OpenConnectedZones();
         

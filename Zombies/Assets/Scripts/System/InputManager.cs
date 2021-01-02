@@ -13,6 +13,12 @@ public class InputManager : MonoBehaviour
 
     PlayerControls playerControls;
 
+    // held buttons
+    bool isSprinting = false;
+    bool triggerHeld = false;
+
+    float mouseScrollY;
+
     private void Awake()
     {
         if(_instance != null && _instance != this)
@@ -22,6 +28,14 @@ public class InputManager : MonoBehaviour
 
         playerControls = new PlayerControls();
         Cursor.visible = false;
+
+        playerControls.Player.Sprint.performed += _ => SetIsSprinting(true);
+        playerControls.Player.Sprint.canceled += _ => SetIsSprinting(false);
+
+        playerControls.Player.Fire.performed += _ => SetTriggerHeld(true);
+        playerControls.Player.Fire.canceled += _ => SetTriggerHeld(false);
+
+        playerControls.Player.WeaponSwapping.performed += x => mouseScrollY = x.ReadValue<float>();
     }
 
     private void OnEnable()
@@ -60,5 +74,25 @@ public class InputManager : MonoBehaviour
 
     public bool InteractButtonPressed(){
         return playerControls.Player.Interact.triggered;
+    }
+
+    public bool PlayerIsSprinting(){
+        return isSprinting;
+    }
+
+    public bool PlayerTriggerHeld(){
+        return triggerHeld;
+    }
+
+    public float GetMouseScrollY(){
+        return mouseScrollY;
+    }
+
+    void SetIsSprinting(bool cond){
+        isSprinting = cond;
+    }
+
+    void SetTriggerHeld(bool cond){
+        triggerHeld = cond;
     }
 }

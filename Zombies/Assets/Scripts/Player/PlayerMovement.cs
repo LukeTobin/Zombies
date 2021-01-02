@@ -6,10 +6,12 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool groundedPlayer;
+    private bool sprintingPlayer;
     
-    [SerializeField] private float playerSpeed = 2.0f;
-    [SerializeField] private float jumpHeight = 1.0f;
-    [SerializeField] private float gravityValue = -9.81f;
+    [SerializeField] float playerSpeed = 2.0f;
+    [SerializeField] float sprintMultiplier = 1.4f;
+    [SerializeField] float jumpHeight = 1.0f;
+    [SerializeField] float gravityValue = -9.81f;
 
     InputManager inputManager;
     Transform cameraTransform;
@@ -29,13 +31,18 @@ public class PlayerMovement : MonoBehaviour
             playerVelocity.y = 0f;
         }
 
+        sprintingPlayer = inputManager.PlayerIsSprinting();
+
         Vector2 movement = inputManager.GetPlayerMovement();
         Vector3 move = new Vector3(movement.x, 0, movement.y);
         
         move = cameraTransform.forward * move.z + cameraTransform.right * move.x;
         move.y = 0f;
         
-        controller.Move(move * Time.deltaTime * playerSpeed);
+        if(sprintingPlayer)
+            controller.Move(move * Time.deltaTime * (playerSpeed * sprintMultiplier));
+        else
+            controller.Move(move * Time.deltaTime * playerSpeed);
 
         
         /*if (move != Vector3.zero)

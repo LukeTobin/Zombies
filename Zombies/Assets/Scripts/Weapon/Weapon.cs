@@ -15,4 +15,8 @@ public class Weapon : MonoBehaviour
     public string weaponName = "";
     public int weaponDamage = 10;
     public Rarity weaponRarity = Rarity.common;
+
+    public void SetWeaponActive(bool condition){
+        gameObject.SetActive(condition);
+    }
 }

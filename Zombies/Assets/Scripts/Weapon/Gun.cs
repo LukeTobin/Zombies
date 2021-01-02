@@ -11,18 +11,23 @@ public class Gun : Weapon
     [SerializeField] int currentClipCount = 0;
     [SerializeField] int currentReserve = 0;
     [Space]
+    [SerializeField] float fireRate = 0.1f;
     [SerializeField] int bulletsPerShot = 1;
     [SerializeField] float reloadTime = 1f;
     [SerializeField] float bulletRange = 1000f;
     [SerializeField] bool isAutomatic = false;
     [Space]
     [SerializeField] LayerMask ignoreZone = 8;
+    [Space]
     
     InputManager inputManager;
     Camera cam;
     Inventory inventory;
 
     bool reloading;
+    bool triggerHeld;
+
+    float timeBetweenShot;
 
     private void Awake()
     {    
@@ -37,12 +42,32 @@ public class Gun : Weapon
         currentClipCount = clipSize;
         currentReserve = maxAmmoCount - clipSize;
 
-        inventory.UpdateBulletCount(currentClipCount, currentReserve);
+        if(inventory != null)
+            inventory.UpdateBulletCount(currentClipCount, currentReserve);
     }
 
     private void Update()
     {
-        if (inputManager.FireButtonPressed() && !reloading)
+        if(isAutomatic)
+            triggerHeld = inputManager.PlayerTriggerHeld();
+
+        // Autofire for when trigger is held
+        if(triggerHeld && !reloading && isAutomatic){
+            if(timeBetweenShot > 0){
+                timeBetweenShot -= Time.deltaTime;
+            }
+            else if(timeBetweenShot <= 0){
+                if(currentClipCount > 0)
+                    Shoot();
+                else
+                    TryReload();
+            }
+        }else if(!triggerHeld && timeBetweenShot != 0){
+            timeBetweenShot = fireRate;
+        }
+
+        // Single-fire
+        if (inputManager.FireButtonPressed() && !reloading && !isAutomatic)
         {
             if(currentClipCount > 0)
                 Shoot();
@@ -60,7 +85,7 @@ public class Gun : Weapon
         RaycastHit hit;
         if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, bulletRange, ~ignoreZone))
         {
-            Debug.Log(hit.collider + " was hit.");
+            // Debug.Log(hit.collider + " was hit.");
             Zombie zombie = hit.transform.GetComponent<Zombie>();
             if(zombie != null){
                 if(zombie.TryKill(weaponDamage)){
@@ -71,10 +96,12 @@ public class Gun : Weapon
 
         currentClipCount -= bulletsPerShot;
         inventory.UpdateBulletCount(currentClipCount, currentReserve);
+
+        timeBetweenShot = fireRate;
     }
 
     void TryReload(){
-        if(currentReserve > 0){
+        if(currentReserve > 0 && !reloading){
             reloading = true;
             StartCoroutine(WaitForReload());
             //StartCoroutine(LowerWeapon());
@@ -84,19 +111,28 @@ public class Gun : Weapon
     IEnumerator WaitForReload(){
         yield return new WaitForSeconds(reloadTime);
         
+        // if your current clip isnt empty
         if(currentClipCount > 0){
+            // check if there is more in your reserve than their is in a single clip
             if((currentReserve + currentClipCount) >= clipSize){
                 currentReserve -= (clipSize - currentClipCount);
                 currentClipCount = clipSize;
                 
             }else{
+                // if there isnt enough to fill a full clip, add the remainder of the reserve
                 currentClipCount = currentClipCount + currentReserve;
                 currentReserve = 0;
             }
         }else{
+            // if your current clip is empty & their is enough in your reserve to fill the remainder of the clip
             if(currentReserve >= clipSize){
                 currentClipCount = clipSize;
                 currentReserve -= clipSize;
+            }
+            // if there isnt enough to fill a full clip
+            else{
+                currentClipCount = currentClipCount + currentReserve;
+                currentReserve = 0;
             }
         }
 
@@ -118,4 +154,17 @@ public class Gun : Weapon
             yield return null;
         }
     }
+
+
+    #region Return Values
+    
+    public int ReturnCurrentClipCount(){
+        return currentClipCount;
+    }
+
+    public int ReturnCurrentAmmoReserve(){
+        return currentReserve;
+    }
+
+    #endregion
 }

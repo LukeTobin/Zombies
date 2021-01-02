@@ -6,9 +6,9 @@ public class WeaponPickup : Interactable
 {
     [SerializeField] Weapon weapon = null;
 
-    public override void Interact()
+    public override void Interact(PlayerController interactor)
     {
-        
+        interactor.AddWeaponToInventory(weapon);
     }
 
     public Weapon GetWeapon(){
