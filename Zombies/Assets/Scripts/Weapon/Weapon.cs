@@ -12,6 +12,7 @@ public class Weapon : MonoBehaviour
         legendary
     }
 
+    [Header("Uniques")]
     public string weaponName = "";
     public int weaponDamage = 10;
     public Rarity weaponRarity = Rarity.common;

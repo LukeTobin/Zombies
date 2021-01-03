@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class Gun : Weapon
 {
@@ -11,28 +12,49 @@ public class Gun : Weapon
     [SerializeField] int currentClipCount = 0;
     [SerializeField] int currentReserve = 0;
     [Space]
-    [SerializeField] float fireRate = 0.1f;
+    [SerializeField] float fireRate = 0.05f;
+    [SerializeField] float adsRate = 5f;
     [SerializeField] int bulletsPerShot = 1;
     [SerializeField] float reloadTime = 1f;
     [SerializeField] float bulletRange = 1000f;
     [SerializeField] bool isAutomatic = false;
+    [Space]
+    [SerializeField] float adsX = 0f;
+    [SerializeField] float adsY = 0f;
+    [SerializeField] float adsZ = 0f;
+    [Space]
+    [SerializeField] GameObject decalPrefab = null;
+    [Space]
+    [SerializeField] float swayIntensity = 1f;
+    [SerializeField] float swaySmoothing = 2f;
+    [SerializeField] float adsFOVSpeed = 5f;
     [Space]
     [SerializeField] LayerMask ignoreZone = 8;
     [Space]
     
     InputManager inputManager;
     Camera cam;
+    CinemachineVirtualCamera vcam;
+    
     Inventory inventory;
 
     bool reloading;
     bool triggerHeld;
 
     float timeBetweenShot;
+    float defaultFOV;
+
+    Quaternion rotationOrigin;
+
+    Vector3 hipLocation;
 
     private void Awake()
     {    
         cam = Camera.main;
+        vcam = FindObjectOfType<CinemachineVirtualCamera>();
         inventory = GetComponentInParent<Inventory>();
+        hipLocation = transform.localPosition;
+        defaultFOV = cam.fieldOfView;
     }
 
     private void Start()
@@ -41,6 +63,7 @@ public class Gun : Weapon
 
         currentClipCount = clipSize;
         currentReserve = maxAmmoCount - clipSize;
+        rotationOrigin = transform.localRotation;
 
         if(inventory != null)
             inventory.UpdateBulletCount(currentClipCount, currentReserve);
@@ -48,8 +71,12 @@ public class Gun : Weapon
 
     private void Update()
     {
+        UpdateSway();
+
         if(isAutomatic)
             triggerHeld = inputManager.PlayerTriggerHeld();
+
+        AimGun(inputManager.PlayerAimHeld());
 
         // Autofire for when trigger is held
         if(triggerHeld && !reloading && isAutomatic){
@@ -91,6 +118,10 @@ public class Gun : Weapon
                 if(zombie.TryKill(weaponDamage)){
                     inventory.AddKillPoints();
                 }
+            } else{
+                GameObject bulletDecal = Instantiate(decalPrefab, hit.point + hit.normal * 0.001f, Quaternion.identity) as GameObject;
+                bulletDecal.transform.LookAt(hit.point + hit.normal);
+                Destroy(bulletDecal, 7f);
             }
         }
 
@@ -152,6 +183,28 @@ public class Gun : Weapon
         while(transform.position.x != 0.15f){
             transform.position += new Vector3(1, 1) * (Time.deltaTime * 10f);
             yield return null;
+        }
+    }
+
+    void UpdateSway(){
+        Vector2 mouseRotation = inputManager.GetMouseDelta();
+        Quaternion adjacentX = Quaternion.AngleAxis(-swayIntensity * mouseRotation.x, Vector3.up);
+        Quaternion adjacentY = Quaternion.AngleAxis(swayIntensity * mouseRotation.y, Vector3.right);
+        Quaternion targetRotation = rotationOrigin * adjacentX * adjacentY;
+
+        if(!inputManager.PlayerAimHeld())
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * swaySmoothing);
+        else
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * (swaySmoothing * 4));
+    }
+
+    void AimGun(bool isAiming){
+        if(isAiming){
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(adsX, adsY, adsZ), Time.deltaTime * adsRate);
+            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, (defaultFOV / 1.5f), adsFOVSpeed);         
+        }else if(transform.localPosition != hipLocation){
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, hipLocation, Time.deltaTime * adsRate);
+            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, defaultFOV, adsFOVSpeed); 
         }
     }
 

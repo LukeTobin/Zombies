@@ -8,16 +8,19 @@ public class Zombie : MonoBehaviour
     [Header("References")]
     [SerializeField] Barricade attackPoint;
 
-    [Header("Health")]
+    [Header("Stats")]
     [SerializeField] int maxHealth = 100;
     [SerializeField] int currentHealth = 0;
     [Space]
-    [SerializeField] int maxDamage = 15;
+    [SerializeField] float maxDamage = 1.2f;
     [SerializeField] float maxSpeed = 1f;
+    [Space]
+    [SerializeField] float waitToAttack = 0.8f;
 
     [Header("Prototype")]
     [SerializeField] PlayerController target = null;
     [SerializeField] Zone currentZone = null;
+    [SerializeField] float distanceFromTarget = 0;
 
     NavMeshAgent zombieAgent;
     bool activeOnMap = false;
@@ -41,12 +44,19 @@ public class Zombie : MonoBehaviour
 
     void Update() {
         if(activeOnMap && target != null){
-            zombieAgent.destination = target.transform.position;
+            distanceFromTarget = Vector3.Distance(transform.position, target.transform.position);
+            if(distanceFromTarget > 1.5f){
+                zombieAgent.destination = target.transform.position;
+            }else{
+                Invoke("TryAttack", waitToAttack);
+            }
+            
         }    
 
         // check if zone is in zone list, if not check range from player
     }
 
+    // Attempt to kill zombie and register damage
     public bool TryKill(int damage){
         TakeDamage(damage);
         if(currentHealth == 0){
@@ -57,6 +67,7 @@ public class Zombie : MonoBehaviour
         }
     }
 
+    // Register damage to zombie
     public void TakeDamage(int damage){
         if(currentHealth - damage <= 0){
             currentHealth = 0;
@@ -65,12 +76,14 @@ public class Zombie : MonoBehaviour
         }   
     }
 
+    // Kill zombie & Update zombies remaining & add the zombie back into the object pool
     public void KillZombie(){
         RoundManager.Instance.UpdateZombiesRemaining(this);
         ObjectPool.SharedInstance.ReturnPooledObject(gameObject);
     }
 
-    public void CreateNewZombie(int health, int damage, float speed, PlayerController _target = null){
+    // Create a new zombie with specific stats
+    public void CreateNewZombie(int health, float damage, float speed, PlayerController _target = null){
         maxHealth = health;
         maxDamage = damage;
         maxSpeed = speed;
@@ -79,6 +92,14 @@ public class Zombie : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    private void TryAttack(){
+        if(distanceFromTarget < 1.5f){
+            float dmg = maxDamage - Random.Range(0, 0.6f);
+            target.TakeDamage(dmg);
+        }
+    }
+
+    // Update active zones
     private void OnTriggerEnter(Collider other) {
         if(other.GetComponent<Zone>()){
             currentZone = other.GetComponent<Zone>();

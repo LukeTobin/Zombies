@@ -16,6 +16,7 @@ public class InputManager : MonoBehaviour
     // held buttons
     bool isSprinting = false;
     bool triggerHeld = false;
+    bool aimHeld = false;
 
     float mouseScrollY;
 
@@ -34,6 +35,9 @@ public class InputManager : MonoBehaviour
 
         playerControls.Player.Fire.performed += _ => SetTriggerHeld(true);
         playerControls.Player.Fire.canceled += _ => SetTriggerHeld(false);
+
+        playerControls.Player.Aim.performed += _ => SetAimHeld(true);
+        playerControls.Player.Aim.canceled += _ => SetAimHeld(false);
 
         playerControls.Player.WeaponSwapping.performed += x => mouseScrollY = x.ReadValue<float>();
     }
@@ -84,15 +88,26 @@ public class InputManager : MonoBehaviour
         return triggerHeld;
     }
 
+    public bool PlayerAimHeld(){
+        return aimHeld;
+    }
+
     public float GetMouseScrollY(){
         return mouseScrollY;
     }
 
+
+
+    // Private Methods
     void SetIsSprinting(bool cond){
         isSprinting = cond;
     }
 
     void SetTriggerHeld(bool cond){
         triggerHeld = cond;
+    }
+
+    void SetAimHeld(bool cond){
+        aimHeld = cond;
     }
 }

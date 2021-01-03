@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     InputManager inputManager;
     ZoneManager zoneManager;
     PlayerGUI gui;
+    PlayerHealth health;
     
     Interactable interaction = null;
 
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
         zoneManager = ZoneManager.Instance;
 
         gui = GetComponentInChildren<PlayerGUI>();
+        health = GetComponentInChildren<PlayerHealth>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update() {
+        // CHECK FOR INTERACTIONS
         if(interaction != null){
             if(inputManager.InteractButtonPressed()){
                 int costOfInteraction = interaction.GetInteractionCost();
@@ -53,6 +56,9 @@ public class PlayerController : MonoBehaviour
             if(inventory != null)
                 inventory.SwapWeapon(mouseScrollY);
         }
+
+        // WEAPON SWAY
+        
     }
 
     public void AddPoints(int pointsToAdd){
@@ -78,6 +84,10 @@ public class PlayerController : MonoBehaviour
 
     public int GetAllPoints(){
         return allPoints;
+    }
+
+    public void TakeDamage(float damage){
+        health.TakeDamage(damage);
     }
 
     private void OnTriggerEnter(Collider other) {

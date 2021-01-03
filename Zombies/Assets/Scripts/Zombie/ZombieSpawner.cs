@@ -12,7 +12,7 @@ public class ZombieSpawner : MonoBehaviour
         if(zombie != null){
             zombie.transform.position = transform.position;
             int z_health = 100 * roundM.GetCurrentRound();
-            zombie.GetComponent<Zombie>().CreateNewZombie(z_health, 50, 1.2f, GameManager.Instance.GetPlayer());
+            zombie.GetComponent<Zombie>().CreateNewZombie(z_health, 1.2f, 1.2f, GameManager.Instance.GetPlayer());
             roundM.AddZombieToPool(zombie.GetComponent<Zombie>());
             zombie.SetActive(true);
         }
