@@ -5,6 +5,10 @@ using Cinemachine;
 
 public class Gun : Weapon
 {
+    #region Variables
+
+    #region Public variables
+
     [Header("Gun")]
     [SerializeField] int maxAmmoCount = 0;
     [SerializeField] int clipSize = 0;
@@ -13,11 +17,19 @@ public class Gun : Weapon
     [SerializeField] int currentReserve = 0;
     [Space]
     [SerializeField] float fireRate = 0.05f;
-    [SerializeField] float adsRate = 5f;
+    [SerializeField] float adsRate = 1.5f;
     [SerializeField] int bulletsPerShot = 1;
-    [SerializeField] float reloadTime = 1f;
     [SerializeField] float bulletRange = 1000f;
+    [SerializeField] float reloadTime = 1f;
     [SerializeField] bool isAutomatic = false;
+    [Space]
+    [SerializeField] float bulletSpread = 20f;
+    [SerializeField] float adsSpreadControl = 3f;
+    [SerializeField] float maxRecoilVertical = -20f;
+    [SerializeField] float maxRecoilHorizontal = 20f;
+    [SerializeField] float recoilSpeed = 2f;
+    [SerializeField] float recoilStabilizeSpeed = 2f;
+    [SerializeField] Vector2 adsRecoilControl = new Vector2(1, 1);
     [Space]
     [SerializeField] float adsX = 0f;
     [SerializeField] float adsY = 0f;
@@ -25,13 +37,17 @@ public class Gun : Weapon
     [Space]
     [SerializeField] GameObject decalPrefab = null;
     [Space]
-    [SerializeField] float swayIntensity = 1f;
-    [SerializeField] float swaySmoothing = 2f;
-    [SerializeField] float adsFOVSpeed = 5f;
+    [SerializeField] float swayIntensity = 0.8f;
+    [SerializeField] float swaySmoothing = 1.6f;
+    [SerializeField] float adsFOVSpeed = 0.03f;
     [Space]
     [SerializeField] LayerMask ignoreZone = 8;
     [Space]
     
+    #endregion
+
+    #region Private Variables
+
     InputManager inputManager;
     Camera cam;
     CinemachineVirtualCamera vcam;
@@ -40,20 +56,32 @@ public class Gun : Weapon
 
     bool reloading;
     bool triggerHeld;
+    bool aimHeld;
 
     float timeBetweenShot;
     float defaultFOV;
+    float recoil = 0f;
+    float tempMaxRecoilHorizontal;
 
     Quaternion rotationOrigin;
 
     Vector3 hipLocation;
+    Vector3 hipAngle;
+
+    #endregion
+    
+    #endregion
+
+    #region Callbacks
 
     private void Awake()
     {    
         cam = Camera.main;
         vcam = FindObjectOfType<CinemachineVirtualCamera>();
         inventory = GetComponentInParent<Inventory>();
+
         hipLocation = transform.localPosition;
+        hipAngle = transform.localEulerAngles;
         defaultFOV = cam.fieldOfView;
     }
 
@@ -71,12 +99,17 @@ public class Gun : Weapon
 
     private void Update()
     {
+        // Apply Gun Sway
         UpdateSway();
 
+        // Check if player is aiming down sights & if so aim the weapon
+        aimHeld = inputManager.PlayerAimHeld();
+        AimGun(aimHeld);
+
+        // Check if you're holding the fire trigger
         if(isAutomatic)
             triggerHeld = inputManager.PlayerTriggerHeld();
-
-        AimGun(inputManager.PlayerAimHeld());
+        
 
         // Autofire for when trigger is held
         if(triggerHeld && !reloading && isAutomatic){
@@ -84,8 +117,9 @@ public class Gun : Weapon
                 timeBetweenShot -= Time.deltaTime;
             }
             else if(timeBetweenShot <= 0){
-                if(currentClipCount > 0)
+                if(currentClipCount > 0){
                     Shoot();
+                }
                 else
                     TryReload();
             }
@@ -96,23 +130,50 @@ public class Gun : Weapon
         // Single-fire
         if (inputManager.FireButtonPressed() && !reloading && !isAutomatic)
         {
-            if(currentClipCount > 0)
+            if(currentClipCount > 0){
                 Shoot();
+            }
             else
                 TryReload();
         }
 
+        // Apply any needed Recoil for when firing
+        Recoiling();
+
+        // Check if player wants to reload
         if(inputManager.ReloadButtonPressed() && !reloading){
             TryReload();
         }
     }
 
+    #endregion
+
+    #region Private Methods
+
     void Shoot()
     {
+        // Create Raycast & Forward Vector
         RaycastHit hit;
-        if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, bulletRange, ~ignoreZone))
+        Vector3 forwardVector = Vector3.forward;
+
+        // Apply Weapon Recoil
+        StartRecoil(0.2f, maxRecoilHorizontal);
+
+        // Adjust forward vector based on bullet spread
+        if(!aimHeld){
+            Vector3 deviation3D = Random.insideUnitCircle * bulletSpread;
+            Quaternion rot = Quaternion.LookRotation(Vector3.forward * bulletRange + deviation3D);
+            forwardVector = cam.transform.rotation * rot * Vector3.forward;
+        }
+        else{
+            Vector3 deviation3D = Random.insideUnitCircle * (bulletSpread / adsSpreadControl);
+            Quaternion rot = Quaternion.LookRotation(Vector3.forward * bulletRange + deviation3D);
+            forwardVector = cam.transform.rotation * rot * Vector3.forward;
+        }
+
+        // Check if raycast hit anything
+        if(Physics.Raycast(cam.transform.position, forwardVector, out hit, bulletRange, ~ignoreZone))
         {
-            // Debug.Log(hit.collider + " was hit.");
             Zombie zombie = hit.transform.GetComponent<Zombie>();
             if(zombie != null){
                 if(zombie.TryKill(weaponDamage)){
@@ -125,10 +186,41 @@ public class Gun : Weapon
             }
         }
 
+        // Finish shot and update relevent information
         currentClipCount -= bulletsPerShot;
         inventory.UpdateBulletCount(currentClipCount, currentReserve);
 
         timeBetweenShot = fireRate;
+    }
+
+    void StartRecoil(float _recoil, float _maxRecoil_x)
+    {
+        // in seconds
+        recoil = _recoil;
+        tempMaxRecoilHorizontal = Random.Range(-_maxRecoil_x, _maxRecoil_x);
+    }
+
+    void Recoiling()
+    {
+        if (recoil > 0f){
+            if(aimHeld){
+                // Get Euler Angle and dampen towards the target rotation
+                float tempMaxRecoilVetical = maxRecoilVertical / adsRecoilControl.y;
+                tempMaxRecoilHorizontal /= adsRecoilControl.x;
+
+                // Filled in (y,x) to get intended results
+                Quaternion maxRecoil = Quaternion.Euler(tempMaxRecoilVetical, tempMaxRecoilHorizontal, 0f);
+                transform.localRotation = Quaternion.Slerp (transform.localRotation, maxRecoil, Time.deltaTime * recoilSpeed);
+            }else{
+                // Get Euler Angle and dampen towards the target rotation
+                Quaternion maxRecoil = Quaternion.Euler(maxRecoilVertical, tempMaxRecoilHorizontal, 0f);              
+                transform.localRotation = Quaternion.Slerp (transform.localRotation, maxRecoil, Time.deltaTime * recoilSpeed);
+            }
+            recoil -= Time.deltaTime;
+        } else{
+            recoil = 0f;
+            transform.localRotation = Quaternion.Slerp (transform.localRotation, Quaternion.identity, Time.deltaTime * (recoilSpeed * recoilStabilizeSpeed));
+        }
     }
 
     void TryReload(){
@@ -139,6 +231,36 @@ public class Gun : Weapon
         }
     }
 
+    void UpdateSway(){
+        Vector2 mouseRotation = inputManager.GetMouseDelta();
+
+        if(aimHeld){
+            Quaternion adjacentX = Quaternion.AngleAxis((-swayIntensity/4) * mouseRotation.x, Vector3.up);
+            Quaternion adjacentY = Quaternion.AngleAxis((swayIntensity/4) * mouseRotation.y, Vector3.right);
+            Quaternion targetRotation = rotationOrigin * adjacentX * adjacentY;
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * (swaySmoothing * 6));
+        }       
+        else{
+            Quaternion adjacentX = Quaternion.AngleAxis(-swayIntensity * mouseRotation.x, Vector3.up);
+            Quaternion adjacentY = Quaternion.AngleAxis(swayIntensity * mouseRotation.y, Vector3.right);
+            Quaternion targetRotation = rotationOrigin * adjacentX * adjacentY;
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * swaySmoothing);
+        }
+    }
+
+    void AimGun(bool isAiming){
+        if(isAiming){
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(adsX, adsY, adsZ), (Time.deltaTime * adsRate));
+            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, (defaultFOV / 1.5f), adsFOVSpeed);         
+        }else if(transform.localPosition != hipLocation){
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, hipLocation, Time.deltaTime * adsRate);
+            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, defaultFOV, adsFOVSpeed); 
+        }
+    }
+
+    #endregion
+
+    #region Enumerations
     IEnumerator WaitForReload(){
         yield return new WaitForSeconds(reloadTime);
         
@@ -186,30 +308,9 @@ public class Gun : Weapon
         }
     }
 
-    void UpdateSway(){
-        Vector2 mouseRotation = inputManager.GetMouseDelta();
-        Quaternion adjacentX = Quaternion.AngleAxis(-swayIntensity * mouseRotation.x, Vector3.up);
-        Quaternion adjacentY = Quaternion.AngleAxis(swayIntensity * mouseRotation.y, Vector3.right);
-        Quaternion targetRotation = rotationOrigin * adjacentX * adjacentY;
+    #endregion
 
-        if(!inputManager.PlayerAimHeld())
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * swaySmoothing);
-        else
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * (swaySmoothing * 4));
-    }
-
-    void AimGun(bool isAiming){
-        if(isAiming){
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(adsX, adsY, adsZ), Time.deltaTime * adsRate);
-            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, (defaultFOV / 1.5f), adsFOVSpeed);         
-        }else if(transform.localPosition != hipLocation){
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, hipLocation, Time.deltaTime * adsRate);
-            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, defaultFOV, adsFOVSpeed); 
-        }
-    }
-
-
-    #region Return Values
+    #region Public returnable variables
     
     public int ReturnCurrentClipCount(){
         return currentClipCount;

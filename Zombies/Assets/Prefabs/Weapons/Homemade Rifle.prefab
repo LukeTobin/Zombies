@@ -341,17 +341,23 @@ MonoBehaviour:
   currentClipCount: 0
   currentReserve: 0
   fireRate: 0.1
+  adsRate: 1.5
   bulletsPerShot: 1
-  reloadTime: 1.1
+  bulletSpread: 0.5
   bulletRange: 10000
+  reloadTime: 1.1
   isAutomatic: 0
+  adsX: 0
+  adsY: 0
+  adsZ: 0
   decalPrefab: {fileID: 6652135546667582749, guid: 5d9f3a3f0a0eb2b479d09883c30cf2c8,
     type: 3}
   swayIntensity: 1
   swaySmoothing: 2
+  adsFOVSpeed: 0.03
   ignoreZone:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768
 --- !u!1001 &1197333712175084492
 PrefabInstance:
   m_ObjectHideFlags: 0

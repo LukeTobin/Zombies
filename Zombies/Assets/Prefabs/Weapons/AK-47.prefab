@@ -184,7 +184,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2240819480032054401}
-  m_LocalRotation: {x: 0.01745245, y: 0, z: 0, w: 0.99984777}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.26, y: 0.323, z: 0.223}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -194,7 +194,7 @@ Transform:
   - {fileID: 2239132818569156893}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 2, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2263617605919834719
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -255,29 +255,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: AK-47
-  weaponDamage: 37
+  weaponDamage: 84
   weaponRarity: 0
   maxAmmoCount: 180
   clipSize: 30
   currentClipCount: 0
   currentReserve: 0
   fireRate: 0.06
-  adsRate: 5
+  adsRate: 1.5
   bulletsPerShot: 1
-  reloadTime: 1.3
   bulletRange: 1000
+  reloadTime: 1.3
   isAutomatic: 1
+  bulletSpread: 55
+  adsSpreadControl: 4
+  maxRecoilVertical: -10
+  maxRecoilHorizontal: 10
+  recoilSpeed: 10
+  recoilStabilizeSpeed: 2
+  adsRecoilControl: {x: 1.25, y: 5.5}
   adsX: 0
-  adsY: 0.455
-  adsZ: -0.1
+  adsY: 0.447
+  adsZ: 0.05
   decalPrefab: {fileID: 6652135546667582749, guid: 5d9f3a3f0a0eb2b479d09883c30cf2c8,
     type: 3}
   swayIntensity: 1
   swaySmoothing: 2
-  adsFOVSpeed: 5
+  adsFOVSpeed: 0.03
   ignoreZone:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768
 --- !u!1 &2241204034110272361
 GameObject:
   m_ObjectHideFlags: 0

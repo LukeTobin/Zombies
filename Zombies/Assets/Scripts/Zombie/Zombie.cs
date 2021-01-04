@@ -15,7 +15,7 @@ public class Zombie : MonoBehaviour
     [SerializeField] float maxDamage = 1.2f;
     [SerializeField] float maxSpeed = 1f;
     [Space]
-    [SerializeField] float waitToAttack = 0.8f;
+    [SerializeField] float waitToAttack = 0.7f;
 
     [Header("Prototype")]
     [SerializeField] PlayerController target = null;
@@ -24,6 +24,8 @@ public class Zombie : MonoBehaviour
 
     NavMeshAgent zombieAgent;
     bool activeOnMap = false;
+
+    float currentWaitTime = 0;
 
     void Awake(){
         zombieAgent = GetComponent<NavMeshAgent>();
@@ -47,8 +49,12 @@ public class Zombie : MonoBehaviour
             distanceFromTarget = Vector3.Distance(transform.position, target.transform.position);
             if(distanceFromTarget > 1.5f){
                 zombieAgent.destination = target.transform.position;
+                if(currentWaitTime != waitToAttack)
+                    currentWaitTime = waitToAttack;
+            }else if(currentWaitTime <= 0){
+                TryAttack();
             }else{
-                Invoke("TryAttack", waitToAttack);
+                currentWaitTime -= Time.deltaTime;
             }
             
         }    
@@ -95,7 +101,10 @@ public class Zombie : MonoBehaviour
     private void TryAttack(){
         if(distanceFromTarget < 1.5f){
             float dmg = maxDamage - Random.Range(0, 0.6f);
+            //Debug.Log("Attacking for " + dmg);
             target.TakeDamage(dmg);
+
+            currentWaitTime = waitToAttack / 1.2f;
         }
     }
 

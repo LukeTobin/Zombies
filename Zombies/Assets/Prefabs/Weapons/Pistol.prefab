@@ -26,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4055602186311927133}
-  m_LocalRotation: {x: 0.01745245, y: 0, z: 0, w: 0.99984777}
+  m_LocalRotation: {x: 0.008726558, y: 0, z: 0, w: 0.999962}
   m_LocalPosition: {x: 0.215, y: 0.426, z: 0.227}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -37,7 +37,7 @@ Transform:
   - {fileID: 4053927154108655029}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 2, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 1, y: 0, z: 0}
 --- !u!33 &4051551340578270879
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -98,18 +98,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Homemade Pistol
-  weaponDamage: 22
+  weaponDamage: 26
   weaponRarity: 0
   maxAmmoCount: 96
   clipSize: 12
   currentClipCount: 0
   currentReserve: 0
   fireRate: 0.03
-  adsRate: 20
+  adsRate: 1.7
   bulletsPerShot: 1
+  bulletRange: 1000
   reloadTime: 1.1
-  bulletRange: 800
   isAutomatic: 0
+  bulletSpread: 45
+  adsSpreadControl: 3.5
+  maxRecoilVertical: -20
+  maxRecoilHorizontal: 1.1
+  recoilSpeed: 25
+  recoilStabilizeSpeed: 15
+  adsRecoilControl: {x: 1.5, y: 1.3}
   adsX: 0
   adsY: 0.515
   adsZ: 0.15
@@ -117,9 +124,10 @@ MonoBehaviour:
     type: 3}
   swayIntensity: 1
   swaySmoothing: 2
+  adsFOVSpeed: 0.03
   ignoreZone:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768
 --- !u!1 &4055810089968422713
 GameObject:
   m_ObjectHideFlags: 0

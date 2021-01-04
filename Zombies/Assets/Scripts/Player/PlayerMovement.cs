@@ -8,8 +8,9 @@ public class PlayerMovement : MonoBehaviour
     private bool groundedPlayer;
     private bool sprintingPlayer;
     
-    [SerializeField] float playerSpeed = 2.0f;
+    [SerializeField] float playerSpeed = 1.8f;
     [SerializeField] float sprintMultiplier = 1.4f;
+    [SerializeField] float adsMovementPenalty = 0.4f;
     [SerializeField] float jumpHeight = 1.0f;
     [SerializeField] float gravityValue = -9.81f;
 
@@ -39,7 +40,9 @@ public class PlayerMovement : MonoBehaviour
         move = cameraTransform.forward * move.z + cameraTransform.right * move.x;
         move.y = 0f;
         
-        if(sprintingPlayer)
+        if(inputManager.PlayerAimHeld())
+            controller.Move(move * Time.deltaTime * (playerSpeed * adsMovementPenalty));
+        else if(sprintingPlayer)
             controller.Move(move * Time.deltaTime * (playerSpeed * sprintMultiplier));
         else
             controller.Move(move * Time.deltaTime * playerSpeed);

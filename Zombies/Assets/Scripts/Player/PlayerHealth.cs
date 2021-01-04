@@ -17,7 +17,7 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] float damageToTake = 0.5f;
     [SerializeField] bool takeDamage = false;
     
-    int currentBlock = 0;
+    public int currentBlock = 0;
 
     float timeSinceLastDamage = 0f;
     bool healthFull = true;
@@ -41,7 +41,7 @@ public class PlayerHealth : MonoBehaviour
         // LOGIC FOR CHECKING WHEN TOO REGENERATE HEALTH
         if(timeSinceLastDamage > 0){
             timeSinceLastDamage -= Time.deltaTime;
-        }else if(timeSinceLastDamage <= 0 && !healthFull){
+        }else if(timeSinceLastDamage <= 0 && !healthFull && !down){
             if(healthBlocks[currentBlock] != blockToughness && !regenerating){
                 // Lerp values
                 regenerating = true;
@@ -56,8 +56,6 @@ public class PlayerHealth : MonoBehaviour
                     }
                 }
             }
-        }else if(down){
-            Debug.Log("Player is dead");
         }
     }
 
@@ -68,10 +66,11 @@ public class PlayerHealth : MonoBehaviour
             healthBlockUI[currentBlock].value = 0;
             healthBlocks[currentBlock] = 0;
             //HealthBlockUpdate();
-            if((currentBlock + 1) > healthBlockCount)
+            currentBlock++;
+
+            if(currentBlock >= healthBlocks.Count)
                 DownPlayer();
-            else
-                currentBlock++;
+
         }else if(!down){
             healthBlockUI[currentBlock].value = remainderCheck;
             healthBlocks[currentBlock] = remainderCheck;
@@ -136,6 +135,7 @@ public class PlayerHealth : MonoBehaviour
 
     void DownPlayer(){
         Debug.Log("Player is downed");
+        currentBlock = 0;
         down = true;
     }
 }
