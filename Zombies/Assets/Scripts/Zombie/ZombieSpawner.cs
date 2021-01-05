@@ -8,7 +8,7 @@ public class ZombieSpawner : MonoBehaviour
 
     public void SpawnZombie(){
         RoundManager roundM = RoundManager.Instance;
-        GameObject zombie = ObjectPool.SharedInstance.GetPooledObject();
+        GameObject zombie = ObjectPool.SharedInstance.GetPooledObject(ObjectPool.ObjectType.Zombie);
         if(zombie != null){
             zombie.transform.position = transform.position;
             int z_health = 100 * roundM.GetCurrentRound();

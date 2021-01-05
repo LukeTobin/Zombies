@@ -10,12 +10,14 @@ public class Gun : Weapon
     #region Public variables
 
     [Header("Gun")]
+    [Header("Ammo")]
     [SerializeField] int maxAmmoCount = 0;
     [SerializeField] int clipSize = 0;
     [Space]
     [SerializeField] int currentClipCount = 0;
     [SerializeField] int currentReserve = 0;
     [Space]
+    [Header("Bullets")]
     [SerializeField] float fireRate = 0.05f;
     [SerializeField] float adsRate = 1.5f;
     [SerializeField] int bulletsPerShot = 1;
@@ -23,6 +25,7 @@ public class Gun : Weapon
     [SerializeField] float reloadTime = 1f;
     [SerializeField] bool isAutomatic = false;
     [Space]
+    [Header("Recoil")]
     [SerializeField] float bulletSpread = 20f;
     [SerializeField] float adsSpreadControl = 3f;
     [SerializeField] float maxRecoilVertical = -20f;
@@ -35,12 +38,21 @@ public class Gun : Weapon
     [SerializeField] float adsY = 0f;
     [SerializeField] float adsZ = 0f;
     [Space]
+    [Header("Effects")]
     [SerializeField] GameObject decalPrefab = null;
+    [SerializeField] ParticleSystem bulletFire = null;
+    [SerializeField] ParticleSystem bloodParticles = null;
+    [SerializeField] ParticleSystem impactParticles = null;
     [Space]
+    [SerializeField] AudioSource bulletSFX = null;
+    [Space]
+    [Header("Weapon Sway")]
     [SerializeField] float swayIntensity = 0.8f;
     [SerializeField] float swaySmoothing = 1.6f;
     [SerializeField] float adsFOVSpeed = 0.03f;
     [Space]
+    [Header("Requires")]
+    [Tooltip("Ignore Zone, Weapon Buy's and any Collider based objects that don't need to be hit by bullets.")]
     [SerializeField] LayerMask ignoreZone = 8;
     [Space]
     
@@ -95,6 +107,8 @@ public class Gun : Weapon
 
         if(inventory != null)
             inventory.UpdateBulletCount(currentClipCount, currentReserve);
+
+        bulletSFX.UnPause();
     }
 
     private void Update()
@@ -159,6 +173,11 @@ public class Gun : Weapon
         // Apply Weapon Recoil
         StartRecoil(0.2f, maxRecoilHorizontal);
 
+        // Play Audio for Firing
+        if(bulletSFX != null)
+            bulletSFX.Play();
+
+
         // Adjust forward vector based on bullet spread
         if(!aimHeld){
             Vector3 deviation3D = Random.insideUnitCircle * bulletSpread;
@@ -176,6 +195,16 @@ public class Gun : Weapon
         {
             Zombie zombie = hit.transform.GetComponent<Zombie>();
             if(zombie != null){
+                if(bloodParticles != null){
+                    GameObject blood = ObjectPool.SharedInstance.GetPooledObject(ObjectPool.ObjectType.BloodFX);
+                    if(blood != null){
+                        blood.transform.position = hit.point;
+                        blood.transform.rotation = transform.rotation;
+                        blood.SetActive(true);
+
+                        StartCoroutine(RemoveEffect(blood));
+                    }
+                }
                 if(zombie.TryKill(weaponDamage)){
                     inventory.AddKillPoints();
                 }
@@ -306,6 +335,11 @@ public class Gun : Weapon
             transform.position += new Vector3(1, 1) * (Time.deltaTime * 10f);
             yield return null;
         }
+    }
+
+    IEnumerator RemoveEffect(GameObject efx){
+        yield return new WaitForSeconds(1f);
+        ObjectPool.SharedInstance.ReturnPooledObject(efx, ObjectPool.ObjectType.BloodFX);
     }
 
     #endregion

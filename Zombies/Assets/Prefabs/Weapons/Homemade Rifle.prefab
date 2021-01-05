@@ -248,6 +248,7 @@ GameObject:
   - component: {fileID: 6180147108441882059}
   - component: {fileID: 6175528184307585917}
   - component: {fileID: 6169744567394400315}
+  - component: {fileID: 2708088832382981345}
   - component: {fileID: 6182123121850775682}
   m_Layer: 0
   m_Name: Homemade Rifle
@@ -321,6 +322,102 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!82 &2708088832382981345
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6183037011192294707}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 79c14ab2f5646e24d877b7df21125faf, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &6182123121850775682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,14 +440,26 @@ MonoBehaviour:
   fireRate: 0.1
   adsRate: 1.5
   bulletsPerShot: 1
-  bulletSpread: 0.5
   bulletRange: 10000
   reloadTime: 1.1
   isAutomatic: 0
+  bulletSpread: 80
+  adsSpreadControl: 6
+  maxRecoilVertical: -30
+  maxRecoilHorizontal: 10
+  recoilSpeed: 2
+  recoilStabilizeSpeed: 2.5
+  adsRecoilControl: {x: 1.2, y: 3.5}
   adsX: 0
-  adsY: 0
-  adsZ: 0
+  adsY: 0.5
+  adsZ: 0.08
   decalPrefab: {fileID: 6652135546667582749, guid: 5d9f3a3f0a0eb2b479d09883c30cf2c8,
+    type: 3}
+  bulletFire: {fileID: 0}
+  bloodParticles: {fileID: 198107820186352126, guid: b369efb4abe69e044890b664115fab9e,
+    type: 3}
+  impactParticles: {fileID: 0}
+  bulletSFX: {fileID: -5971469225764870050, guid: fa2d84b9647ae634fbb88842883cdd7e,
     type: 3}
   swayIntensity: 1
   swaySmoothing: 2
