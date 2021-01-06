@@ -85,6 +85,64 @@ public class RoundManager : MonoBehaviour
         }
     }
 
+    public bool GetZombieSpeedState(){
+        int n = Random.Range(1, 100);
+        switch(round){
+            case 1:
+                return false;
+            case 2:
+                if(n < 10){
+                    return true;
+                }else{
+                    return false;
+                }
+            case 3:
+                if(n < 25){
+                    return true;
+                }else{
+                    return false;
+                }
+            case 4:
+                if(n < 38){
+                    return true;
+                }else{
+                    return false;
+                }
+            case 5:
+                if(n < 45){
+                    return true;
+                }else{
+                    return false;
+                }
+            case 6:
+                if(n < 65){
+                    return true;
+                }else{
+                    return false;
+                }
+            case 7:
+                if(n < 75){
+                    return true;
+                }else{
+                    return false;
+                }
+            case 8:
+                if(n < 83){
+                    return true;
+                }else{
+                    return false;
+                }
+            case 9:
+                if(n < 95){
+                    return true;
+                }else{
+                    return false;
+                }
+            default:
+                return false;
+        }
+    }
+
     public int GetCurrentRound(){
         return round;
     }

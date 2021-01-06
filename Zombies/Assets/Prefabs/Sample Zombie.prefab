@@ -2999,13 +2999,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackPoint: {fileID: 0}
+  target: {fileID: 0}
+  currentZone: {fileID: 0}
   maxHealth: 100
   currentHealth: 0
   maxDamage: 15
-  maxSpeed: 1.3
+  walkSpeed: 1.2
+  runSpeed: 2.3
   waitToAttack: 0.8
-  target: {fileID: 0}
-  currentZone: {fileID: 0}
   distanceFromTarget: 0
 --- !u!114 &1025846756582726952
 MonoBehaviour:

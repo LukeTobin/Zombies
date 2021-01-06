@@ -5,6 +5,14 @@ using UnityEngine.AI;
 
 public class Zombie : MonoBehaviour
 {
+    // STATEMACHINE
+    public enum States{
+        Spawning,
+        Walking,
+        Running,
+        Attacking
+    }
+
     [Header("References")]
     [SerializeField] Barricade attackPoint;
     [SerializeField] PlayerController target = null;
@@ -15,7 +23,8 @@ public class Zombie : MonoBehaviour
     [SerializeField] int currentHealth = 0;
     [Space]
     [SerializeField] float maxDamage = 1.2f;
-    [SerializeField] float maxSpeed = 1f;
+    [SerializeField] float walkSpeed = 1.2f; // speeds are hard coded for now
+    [SerializeField] float runSpeed = 3.8f;
     [Space]
     [SerializeField] float waitToAttack = 0.7f;
 
@@ -26,6 +35,7 @@ public class Zombie : MonoBehaviour
     ZombieAnimationController zombieAnimationController;
 
     bool activeOnMap = false;
+    bool isRunner = false;
 
     float currentWaitTime = 0;
     float animWaitTime = 0;
@@ -38,7 +48,7 @@ public class Zombie : MonoBehaviour
 
     void Start()
     {
-        zombieAgent.speed = maxSpeed;
+        zombieAgent.speed = walkSpeed;
     	currentHealth = maxHealth;
 
         if(attackPoint == null){
@@ -100,12 +110,16 @@ public class Zombie : MonoBehaviour
     }
 
     // Create a new zombie with specific stats
-    public void CreateNewZombie(int health, float damage, float speed, PlayerController _target = null){
+    public void CreateNewZombie(int health, float damage, bool _isRunner, PlayerController _target = null){
         maxHealth = health;
         maxDamage = damage;
-        maxSpeed = speed;
+        isRunner = _isRunner;
+        if(!_isRunner)
+            zombieAgent.speed = walkSpeed;
+        else
+            zombieAgent.speed = runSpeed;
+        zombieAnimationController.UpdateMovementSpeed(_isRunner);
         target = _target;
-
         currentHealth = maxHealth;
     }
 

@@ -8,9 +8,18 @@ public class ZombieAnimationController : MonoBehaviour
 
     Animator animator;
     float currentAnimationLength = 0f;
+    bool shouldRun;
 
     void Awake(){
         animator = GetComponent<Animator>();
+    }
+
+    void Update(){
+        if(shouldRun){
+            if(!animator.GetBool("Runner")){
+                animator.SetBool("Runner", shouldRun);
+            }
+        }
     }
 
     public void PlayAttackAnimation(){
@@ -18,6 +27,11 @@ public class ZombieAnimationController : MonoBehaviour
         animator.SetTrigger(attackAnimTriggers[n]);
         
         currentAnimationLength = animator.GetCurrentAnimatorStateInfo(0).length - 0.5f;
+    }
+
+    public void UpdateMovementSpeed(bool isRunning){
+        shouldRun = isRunning;
+        animator.SetBool("Runner", isRunning);
     }
 
     public float GetCurrentClipLength(){
