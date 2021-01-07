@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4136441856623151077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4136441856623151083}
+  - component: {fileID: 4136441856623151076}
+  - component: {fileID: 4136441856623151082}
+  - component: {fileID: 4136441856623151081}
+  - component: {fileID: 4136441856623151080}
+  - component: {fileID: 4136441856623151087}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4136441856623151083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136441856623151077}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4136441856623151076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136441856623151077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fbded52b06f96a4281f5fafd880f194, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4136441856623151082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136441856623151077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e609f32327c6ba647bab0997a0d203a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombieObject: {fileID: 7101657194970816998, guid: 5e1fcd511b02b5144ab0e57f39d0ce23,
+    type: 3}
+  amountToPool_zombie: 30
+  bloodFX: {fileID: 1362418652685942, guid: b369efb4abe69e044890b664115fab9e, type: 3}
+  amountToPool_blood: 30
+  zombiePool: []
+  bloodFXPool: []
+--- !u!114 &4136441856623151081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136441856623151077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c13990f9f1065a4d8ef859bfb508718, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainZones: []
+  secondaryZones: []
+  mainZoneSpawnRate: 65
+  disableSpawning: 1
+--- !u!114 &4136441856623151080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136441856623151077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20b757b57ea74054f916722a16129262, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  round: 1
+  zombiesRemaining: 0
+  zombiesActive: []
+  maxZombieSpawns: 30
+  roundStartWaitTime: 4
+  globalGUI: {fileID: 0}
+  testSpawn: 2.5
+  nextSpawnTime: 1
+--- !u!114 &4136441856623151087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4136441856623151077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c61a59961029d849a9ffd443831ca6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}

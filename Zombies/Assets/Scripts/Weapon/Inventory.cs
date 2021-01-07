@@ -76,18 +76,22 @@ public class Inventory : MonoBehaviour
 
     void ChangeHeldWeapon(int newActiveNumber){
         if(!forceWeaponSwaps){
-            weapons[currentWeaponHeld].SetWeaponActive(false);
+            if(weapons[currentWeaponHeld] != null)
+                weapons[currentWeaponHeld].SetWeaponActive(false);
         }
         else
         {
             for (int i = 0; i < weapons.Count; i++)
-             {
-                 weapons[i].SetWeaponActive(false);
-             }
+            {
+                weapons[i].SetWeaponActive(false);
+            }
         }
+        
+        if(weapons[newActiveNumber] != null){
             currentWeaponHeld = newActiveNumber;
             weapons[newActiveNumber].SetWeaponActive(true);
-            UpdateBulletCount(weapons[newActiveNumber].GetComponent<Gun>().ReturnCurrentClipCount(), weapons[newActiveNumber].GetComponent<Gun>().ReturnCurrentAmmoReserve());    
+            UpdateBulletCount(weapons[newActiveNumber].GetComponent<Gun>().ReturnCurrentClipCount(), weapons[newActiveNumber].GetComponent<Gun>().ReturnCurrentAmmoReserve());
+        }
     }
 
     int CountWeaponList(){

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4053994541321089661}
   - component: {fileID: 4051551340578270879}
   - component: {fileID: 4043989925895998223}
-  - component: {fileID: 5595587197154282552}
+  - component: {fileID: 3763404178733800721}
   - component: {fileID: 4057155277007804216}
   m_Layer: 0
   m_Name: Pistol
@@ -86,7 +86,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!82 &5595587197154282552
+--- !u!82 &3763404178733800721
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -223,8 +223,7 @@ MonoBehaviour:
   bloodParticles: {fileID: 198107820186352126, guid: b369efb4abe69e044890b664115fab9e,
     type: 3}
   impactParticles: {fileID: 0}
-  bulletSFX: {fileID: -5971469225764870050, guid: fa2d84b9647ae634fbb88842883cdd7e,
-    type: 3}
+  bulletSFX: {fileID: 3763404178733800721}
   swayIntensity: 1.2
   swaySmoothing: 2
   adsFOVSpeed: 0.03

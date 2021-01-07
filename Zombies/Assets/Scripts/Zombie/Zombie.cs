@@ -27,6 +27,7 @@ public class Zombie : MonoBehaviour
     [SerializeField] float runSpeed = 3.8f;
     [Space]
     [SerializeField] float waitToAttack = 0.7f;
+    [SerializeField] bool idleStance = false;
 
     [Header("Prototype")]
     [SerializeField] float distanceFromTarget = 0;
@@ -50,6 +51,9 @@ public class Zombie : MonoBehaviour
     {
         zombieAgent.speed = walkSpeed;
     	currentHealth = maxHealth;
+
+        if(idleStance)
+            zombieAnimationController.SetIdleAnimation();
 
         if(attackPoint == null){
             // player hunt

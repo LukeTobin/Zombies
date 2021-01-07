@@ -15,6 +15,9 @@ public class ZoneManager : MonoBehaviour
     [Range(1,99)]
     [SerializeField] float mainZoneSpawnRate = 65f;
 
+    [Header("Debug")]
+    [SerializeField] bool disableSpawning = false;
+
     float subSpawnRate;
 
     void Awake() {
@@ -45,11 +48,13 @@ public class ZoneManager : MonoBehaviour
     }
 
     public void AddNewZombie(){
-        float rand = Random.Range(1f, 101f);
-        if(rand <= mainZoneSpawnRate){
-            mainZones[Random.Range(0, mainZones.Count)].SpawnNewZombie();
-        }else{
-            secondaryZones[Random.Range(0, secondaryZones.Count)].SpawnNewZombie();
+        if(!disableSpawning){
+            float rand = Random.Range(1f, 101f);
+            if(rand <= mainZoneSpawnRate){
+                mainZones[Random.Range(0, mainZones.Count)].SpawnNewZombie();
+            }else{
+                secondaryZones[Random.Range(0, secondaryZones.Count)].SpawnNewZombie();
+            }
         }
     }
 }

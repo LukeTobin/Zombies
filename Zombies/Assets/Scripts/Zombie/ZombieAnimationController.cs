@@ -37,4 +37,8 @@ public class ZombieAnimationController : MonoBehaviour
     public float GetCurrentClipLength(){
         return currentAnimationLength;
     }
+
+    public void SetIdleAnimation(){
+        animator.SetBool("StayIdle", true);
+    }
 }

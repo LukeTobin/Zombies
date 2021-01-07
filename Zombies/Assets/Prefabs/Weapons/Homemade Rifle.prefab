@@ -264,7 +264,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6183037011192294707}
-  m_LocalRotation: {x: 0.01745245, y: 0, z: 0, w: 0.99984777}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.18, y: 0.437, z: -0.094}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -274,7 +274,7 @@ Transform:
   - {fileID: 1194463356793747858}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 2, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6175528184307585917
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -434,7 +434,7 @@ MonoBehaviour:
   weaponDamage: 145
   weaponRarity: 0
   maxAmmoCount: 80
-  clipSize: 8
+  clipSize: 7
   currentClipCount: 0
   currentReserve: 0
   fireRate: 0.1
@@ -443,7 +443,7 @@ MonoBehaviour:
   bulletRange: 10000
   reloadTime: 1.1
   isAutomatic: 0
-  bulletSpread: 80
+  bulletSpread: 460
   adsSpreadControl: 6
   maxRecoilVertical: -30
   maxRecoilHorizontal: 10
@@ -451,16 +451,15 @@ MonoBehaviour:
   recoilStabilizeSpeed: 2.5
   adsRecoilControl: {x: 1.2, y: 3.5}
   adsX: 0
-  adsY: 0.5
-  adsZ: 0.08
+  adsY: 0.52
+  adsZ: 0
   decalPrefab: {fileID: 6652135546667582749, guid: 5d9f3a3f0a0eb2b479d09883c30cf2c8,
     type: 3}
   bulletFire: {fileID: 0}
   bloodParticles: {fileID: 198107820186352126, guid: b369efb4abe69e044890b664115fab9e,
     type: 3}
   impactParticles: {fileID: 0}
-  bulletSFX: {fileID: -5971469225764870050, guid: fa2d84b9647ae634fbb88842883cdd7e,
-    type: 3}
+  bulletSFX: {fileID: 2708088832382981345}
   swayIntensity: 1
   swaySmoothing: 2
   adsFOVSpeed: 0.03

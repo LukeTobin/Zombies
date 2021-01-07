@@ -11,6 +11,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 2
     m_ConditionEvent: Runner
     m_EventTreshold: 1.49
+  - m_ConditionMode: 2
+    m_ConditionEvent: StayIdle
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3766971837315118366}
   m_Solo: 0
@@ -126,6 +129,12 @@ AnimatorController:
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
   - m_Name: Runner
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: StayIdle
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -430,6 +439,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Runner
     m_EventTreshold: 1.5
+  - m_ConditionMode: 2
+    m_ConditionEvent: StayIdle
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 2117561873656086013}
   m_Solo: 0

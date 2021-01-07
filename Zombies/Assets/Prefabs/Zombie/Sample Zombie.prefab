@@ -3007,6 +3007,7 @@ MonoBehaviour:
   walkSpeed: 1.2
   runSpeed: 2.3
   waitToAttack: 0.8
+  idleStance: 0
   distanceFromTarget: 0
 --- !u!114 &1025846756582726952
 MonoBehaviour:
