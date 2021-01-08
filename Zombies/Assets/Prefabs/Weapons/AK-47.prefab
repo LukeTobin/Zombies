@@ -386,7 +386,7 @@ MonoBehaviour:
   adsFOVSpeed: 0.03
   ignoreZone:
     serializedVersion: 2
-    m_Bits: 768
+    m_Bits: 1792
 --- !u!1 &2241204034110272361
 GameObject:
   m_ObjectHideFlags: 0

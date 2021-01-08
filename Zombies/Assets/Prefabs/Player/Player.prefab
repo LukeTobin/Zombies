@@ -1040,7 +1040,7 @@ MonoBehaviour:
   playerSpeed: 5.6
   sprintMultiplier: 1.8
   adsMovementPenalty: 0.4
-  jumpHeight: 0.5
+  jumpHeight: 0.6
   gravityValue: -9.81
 --- !u!114 &6103568483959394922
 MonoBehaviour:
