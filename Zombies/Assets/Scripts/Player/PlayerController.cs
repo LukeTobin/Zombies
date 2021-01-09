@@ -56,9 +56,6 @@ public class PlayerController : MonoBehaviour
             if(inventory != null)
                 inventory.SwapWeapon(mouseScrollY);
         }
-
-        // WEAPON SWAY
-        
     }
 
     public void AddPoints(int pointsToAdd){

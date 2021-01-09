@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class Inventory : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Inventory : MonoBehaviour
     [Space]
     [SerializeField] PlayerController player;
     [SerializeField] PlayerGUI gui;
+    [SerializeField] CinemachineVirtualCamera virtualCamera;
     [Space]
     [Header("Debugging")]
     [SerializeField] bool forceWeaponSwaps;
@@ -19,6 +21,10 @@ public class Inventory : MonoBehaviour
 
     public void AddKillPoints(){
         player.AddPoints(100);
+    }
+
+    public CinemachineVirtualCamera ReturnCinemachineVCam(){
+        return virtualCamera;
     }
 
     public void AddNewWeapon(Weapon weapon){

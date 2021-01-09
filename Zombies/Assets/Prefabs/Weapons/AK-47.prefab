@@ -364,8 +364,8 @@ MonoBehaviour:
   bulletRange: 1000
   reloadTime: 1.3
   isAutomatic: 1
-  bulletSpread: 55
-  adsSpreadControl: 4
+  bulletSpread: 155
+  adsSpreadControl: 5.5
   maxRecoilVertical: -10
   maxRecoilHorizontal: 10
   recoilSpeed: 10

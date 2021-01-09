@@ -89,8 +89,8 @@ public class Gun : Weapon
     private void Awake()
     {    
         cam = Camera.main;
-        vcam = FindObjectOfType<CinemachineVirtualCamera>();
         inventory = GetComponentInParent<Inventory>();
+        vcam = inventory.ReturnCinemachineVCam();
 
         hipLocation = transform.localPosition;
         hipAngle = transform.localEulerAngles;
