@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using Cinemachine;
+using Photon.Pun;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviourPunCallbacks
 {
     private CharacterController controller;
     private Vector3 playerVelocity;
@@ -15,12 +16,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpHeight = 1.0f;
     [SerializeField] float gravityValue = -9.81f;
     [Space]
-    [SerializeField] Transform weaponParent;
+    [SerializeField] Transform weaponParent = null;
 
     InputManager inputManager;
     Camera camera;
     CinemachineVirtualCamera virtualCamera;
     Transform cameraTransform;
+    PlayerAnimations animations;
 
     Vector3 weaponParentOrigin;
     Vector3 targetWeaponBobPosition;
@@ -29,19 +31,28 @@ public class PlayerMovement : MonoBehaviour
 
     float defaultFOV;
 
+    bool offlineMode = false;
+
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
-        inputManager = InputManager.Instance;
-        camera = Camera.main;
-        cameraTransform = camera.transform;
-        virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
-        weaponParentOrigin = weaponParent.localPosition;
-        defaultFOV = virtualCamera.m_Lens.FieldOfView;
+        offlineMode = GameManager.Instance.IsGameOffline();
+        if(photonView.IsMine || offlineMode){
+            controller = GetComponent<CharacterController>();
+            inputManager = InputManager.Instance;
+            camera = Camera.main;
+            cameraTransform = camera.transform;
+            virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
+            weaponParentOrigin = weaponParent.localPosition;
+            defaultFOV = virtualCamera.m_Lens.FieldOfView;
+            animations = GetComponent<PlayerAnimations>();
+        }
     }
 
     void Update()
     {
+        if(!photonView.IsMine)
+            return;
+
         groundedPlayer = controller.isGrounded;
         if (groundedPlayer && playerVelocity.y < 0)
         {
@@ -49,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         sprintingPlayer = inputManager.PlayerIsSprinting();
+        animations.SetAnimBool("Sprint", sprintingPlayer);
 
         Vector2 movement = inputManager.GetPlayerMovement();
         Vector3 move = new Vector3(movement.x, 0, movement.y);
@@ -56,6 +68,12 @@ public class PlayerMovement : MonoBehaviour
         move = cameraTransform.forward * move.z + cameraTransform.right * move.x;
         move.y = 0f;
         
+        if(movement.x != 0 || movement.y != 0){
+            animations.SetAnimFloat("Movement", 1);
+        }else{
+            animations.SetAnimFloat("Movement", 0);
+        }
+
         if(inputManager.PlayerAimHeld())
             controller.Move(move * Time.deltaTime * (playerSpeed * adsMovementPenalty));
         else if(sprintingPlayer){
@@ -67,11 +85,6 @@ public class PlayerMovement : MonoBehaviour
             virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, defaultFOV, Time.deltaTime * 5f);
             controller.Move(move * Time.deltaTime * playerSpeed);
         }
-        
-        /*if (move != Vector3.zero)
-        {
-            gameObject.transform.forward = move;
-        }*/
 
         // Changes the height position of the player..
         if (inputManager.PlayerJumpedThisFrame() && groundedPlayer)

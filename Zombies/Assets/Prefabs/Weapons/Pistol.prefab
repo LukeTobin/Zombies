@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4043989925895998223}
   - component: {fileID: 3763404178733800721}
   - component: {fileID: 4057155277007804216}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -197,6 +197,7 @@ MonoBehaviour:
   weaponName: Homemade Pistol
   weaponDamage: 26
   weaponRarity: 0
+  weaponType: 2
   maxAmmoCount: 96
   clipSize: 12
   currentClipCount: 0
@@ -229,7 +230,7 @@ MonoBehaviour:
   adsFOVSpeed: 0.03
   ignoreZone:
     serializedVersion: 2
-    m_Bits: 1792
+    m_Bits: 1796
 --- !u!1 &4055810089968422713
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +242,7 @@ GameObject:
   - component: {fileID: 4061568151066393215}
   - component: {fileID: 4051730533731251729}
   - component: {fileID: 4044003659201569485}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_Pistol_01_Slide_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +321,7 @@ GameObject:
   - component: {fileID: 4061192506369897701}
   - component: {fileID: 4052066753992166743}
   - component: {fileID: 4043941855729477523}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_Pistol_01_Silencer_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -399,7 +400,7 @@ GameObject:
   - component: {fileID: 4053807004171584807}
   - component: {fileID: 4051828528656192233}
   - component: {fileID: 4044112337480701005}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_Pistol_01_Stock_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,7 +479,7 @@ GameObject:
   - component: {fileID: 4061258050321067173}
   - component: {fileID: 4051721542918242003}
   - component: {fileID: 4042531883949529249}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_Pistol_01_Magazine_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -557,7 +558,7 @@ GameObject:
   - component: {fileID: 4053927154108655029}
   - component: {fileID: 4051807234479112097}
   - component: {fileID: 4042405551271478383}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_Pistol_01_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

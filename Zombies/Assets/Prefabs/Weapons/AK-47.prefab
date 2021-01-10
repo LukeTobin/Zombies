@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2239132818569156893}
   - component: {fileID: 2263384262383188407}
   - component: {fileID: 2254070342086793879}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_AssaultRifle_02_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 2239366390720731203}
   - component: {fileID: 2263398470411807673}
   - component: {fileID: 2255743554006664827}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_AssaultRifle_02_Slide_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 2256218023022323441}
   - component: {fileID: -5971469225764870050}
   - component: {fileID: 2241807553269963226}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AK-47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,6 +354,7 @@ MonoBehaviour:
   weaponName: AK-47
   weaponDamage: 84
   weaponRarity: 0
+  weaponType: 1
   maxAmmoCount: 180
   clipSize: 30
   currentClipCount: 0
@@ -386,7 +387,7 @@ MonoBehaviour:
   adsFOVSpeed: 0.03
   ignoreZone:
     serializedVersion: 2
-    m_Bits: 1792
+    m_Bits: 1796
 --- !u!1 &2241204034110272361
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,7 +399,7 @@ GameObject:
   - component: {fileID: 2237518535166242141}
   - component: {fileID: 2262001300592464941}
   - component: {fileID: 2255794416913822427}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_AssaultRifle_02_Magazine_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -477,7 +478,7 @@ GameObject:
   - component: {fileID: 2237665753578807619}
   - component: {fileID: 2263821770166175081}
   - component: {fileID: 2256228458745039859}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_AssaultRifle_02_Handle_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

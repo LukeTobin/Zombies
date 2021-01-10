@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Photon.Pun;
 
-public class PlayerGUI : MonoBehaviour
+public class PlayerGUI : MonoBehaviourPunCallbacks
 {
     [Header("Main GUI")]
     [SerializeField] TMP_Text pointText;
@@ -10,21 +11,20 @@ public class PlayerGUI : MonoBehaviour
     [SerializeField] TMP_Text remainingAmmoText;
     [SerializeField] TMP_Text interactText;
 
-    private void Start() {
-        //interactText.enabled = false;
-    }
-
     public void UpdateDisplayedPoints(int pointsToAdd){
-        pointText.text = pointsToAdd.ToString();
+        if(photonView.IsMine)
+            pointText.text = pointsToAdd.ToString();
     }
 
     public void UpdateDisplayedAmmo(int newClip, int newRemainingAmmo){
-        clipAmmoText.text = newClip.ToString();
-        remainingAmmoText.text = newRemainingAmmo.ToString();
+        if(photonView.IsMine){
+            clipAmmoText.text = newClip.ToString();
+            remainingAmmoText.text = newRemainingAmmo.ToString();
+        }
     }
 
     public void InterationPopup(string text, bool show){
-        interactText.text = text;
-        //interactText.enabled = show;
+        if(photonView.IsMine)
+            interactText.text = text;
     }
 }

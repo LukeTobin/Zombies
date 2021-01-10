@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPunCallbacks
 {
     [Header("Points")]
     [SerializeField] int currentPoints = 0;
@@ -9,6 +10,12 @@ public class PlayerController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Inventory inventory = null;
+
+    [Header("Multiplayer Objects")]
+    [SerializeField] GameObject[] myView = null;
+    [SerializeField] Camera camToDisable = null;
+    [SerializeField] SkinnedMeshRenderer[] s_renderForTeam = null;
+    [SerializeField] MeshRenderer[] renderForTeam = null;
 
     InputManager inputManager;
     ZoneManager zoneManager;
@@ -20,6 +27,32 @@ public class PlayerController : MonoBehaviour
     float mouseScrollY;
 
     void Start(){
+        if(photonView.IsMine || GameManager.Instance.IsGameOffline()){
+            foreach(GameObject check in myView)
+                check.SetActive(true);
+
+            if(camToDisable != null)
+                camToDisable.enabled = true;
+
+            foreach(SkinnedMeshRenderer check in s_renderForTeam)
+                check.enabled = false;
+          
+            foreach(MeshRenderer check in renderForTeam)
+                check.enabled = false;
+        }else if(!photonView.IsMine){
+            foreach(GameObject check in myView)
+                check.SetActive(false);
+
+            if(camToDisable != null)
+                camToDisable.enabled = false;
+
+            foreach(SkinnedMeshRenderer check in s_renderForTeam)
+                check.enabled = true;
+
+            foreach(MeshRenderer check in renderForTeam)
+                check.enabled = true;
+        }
+
         inputManager = InputManager.Instance;
         zoneManager = ZoneManager.Instance;
 
@@ -33,6 +66,10 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Update() {
+        
+        if(!photonView.IsMine)
+            return;
+
         // CHECK FOR INTERACTIONS
         if(interaction != null){
             if(inputManager.InteractButtonPressed()){
@@ -58,7 +95,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    [PunRPC]
+    void Test(){
+        Debug.Log("TESTED");
+    }
+
     public void AddPoints(int pointsToAdd){
+        if(!photonView.IsMine)
+            return;
+
         allPoints += pointsToAdd;
         currentPoints += pointsToAdd;
 
@@ -66,12 +111,18 @@ public class PlayerController : MonoBehaviour
     }
 
     public void RemovePoints(int pointsToRemove){
+        if(!photonView.IsMine)
+            return;
+
         currentPoints -= pointsToRemove;
 
         gui.UpdateDisplayedPoints(currentPoints);
     }
 
     public void AddWeaponToInventory(Weapon weapon){
+        if(!photonView.IsMine)
+            return;
+
         inventory.AddNewWeapon(weapon);
     }
 
@@ -88,6 +139,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
+        if(!photonView.IsMine)
+            return;
+
         if(other.GetComponent<Zone>()){
             zoneManager.AddNewMainZone(other.GetComponent<Zone>());
         }
@@ -99,6 +153,9 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerExit(Collider other) {
+        if(!photonView.IsMine)
+            return;
+
         if(other.GetComponent<Zone>()){
             zoneManager.RemoveZones(other.GetComponent<Zone>());
         }

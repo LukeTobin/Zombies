@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerHealth : MonoBehaviourPunCallbacks
 {
     [SerializeField] int healthBlockCount = 2;
     [SerializeField] float regenTime = 1.8f;
@@ -33,6 +34,10 @@ public class PlayerHealth : MonoBehaviour
     }
 
     void Update(){
+
+        if(!photonView.IsMine)
+            return;
+
         if(takeDamage){
             TakeDamage(damageToTake);
             takeDamage = false;
@@ -60,6 +65,9 @@ public class PlayerHealth : MonoBehaviour
     }
 
     public void TakeDamage(float damage){
+        if(!photonView.IsMine)
+            return;
+
         float remainderCheck = (healthBlocks[currentBlock] - damage);
         if(remainderCheck <= 0 && !down){
             // Destroy Block
@@ -134,6 +142,9 @@ public class PlayerHealth : MonoBehaviour
     }
 
     void DownPlayer(){
+        if(!photonView.IsMine)
+            return;
+            
         Debug.Log("Player is downed");
         currentBlock = 0;
         down = true;

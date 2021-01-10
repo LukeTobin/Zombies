@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Photon.Pun;
 
 public class Gun : Weapon
 {
@@ -113,6 +114,9 @@ public class Gun : Weapon
 
     private void Update()
     {
+        if(!photonView.IsMine)
+            return;
+            
         // Apply Gun Sway
         UpdateSway();
 
@@ -132,7 +136,8 @@ public class Gun : Weapon
             }
             else if(timeBetweenShot <= 0){
                 if(currentClipCount > 0){
-                    Shoot();
+                    //cam.GetComponentInParent<PlayerController>().photonView.RPC("Shoot", RpcTarget.All);
+                   Shoot();
                 }
                 else
                     TryReload();
@@ -145,6 +150,7 @@ public class Gun : Weapon
         if (inputManager.FireButtonPressed() && !reloading && !isAutomatic)
         {
             if(currentClipCount > 0){
+                //cam.GetComponentInParent<PlayerController>().photonView.RPC("Shoot", RpcTarget.All);
                 Shoot();
             }
             else
@@ -164,19 +170,24 @@ public class Gun : Weapon
 
     #region Private Methods
 
-    void Shoot()
+    [PunRPC]
+    public void Shoot()
     {
+        if(photonView.IsMine){
+            Debug.Log("i shot");
+        }
         // Create Raycast & Forward Vector
         RaycastHit hit;
         Vector3 forwardVector = Vector3.forward;
-
-        // Apply Weapon Recoil
-        StartRecoil(0.2f, maxRecoilHorizontal);
 
         // Play Audio for Firing
         if(bulletSFX != null)
             bulletSFX.Play();
 
+        if(photonView.IsMine){
+            // Apply Weapon Recoil
+            StartRecoil(0.2f, maxRecoilHorizontal);       
+        }
 
         // Adjust forward vector based on bullet spread
         if(!aimHeld){
@@ -189,7 +200,7 @@ public class Gun : Weapon
             Quaternion rot = Quaternion.LookRotation(Vector3.forward * bulletRange + deviation3D);
             forwardVector = cam.transform.rotation * rot * Vector3.forward;
         }
-
+        
         // Check if raycast hit anything
         if(Physics.Raycast(cam.transform.position, forwardVector, out hit, bulletRange, ~ignoreZone))
         {
@@ -205,7 +216,7 @@ public class Gun : Weapon
                         StartCoroutine(RemoveEffect(blood));
                     }
                 }
-                if(zombie.TryKill(weaponDamage)){
+                if(zombie.TryKill(weaponDamage) && photonView.IsMine){
                     inventory.AddKillPoints();
                 }
             } else{
@@ -215,11 +226,14 @@ public class Gun : Weapon
             }
         }
 
-        // Finish shot and update relevent information
-        currentClipCount -= bulletsPerShot;
-        inventory.UpdateBulletCount(currentClipCount, currentReserve);
+        if(photonView.IsMine){
+            // Finish shot and update relevent information
+            currentClipCount -= bulletsPerShot;
+            inventory.UpdateBulletCount(currentClipCount, currentReserve);
 
-        timeBetweenShot = fireRate;
+            timeBetweenShot = fireRate;
+        }
+        
     }
 
     void StartRecoil(float _recoil, float _maxRecoil_x)
@@ -255,6 +269,7 @@ public class Gun : Weapon
     void TryReload(){
         if(currentReserve > 0 && !reloading){
             reloading = true;
+            inventory.TriggerReloadAnim();
             StartCoroutine(WaitForReload());
             //StartCoroutine(LowerWeapon());
         }

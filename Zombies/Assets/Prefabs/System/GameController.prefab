@@ -114,4 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c61a59961029d849a9ffd443831ca6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: Player
+  spawnPoint: {fileID: 0}
   player: {fileID: 0}
+  offlineMode: 0

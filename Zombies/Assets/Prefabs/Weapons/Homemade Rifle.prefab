@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6180404157637595197}
   - component: {fileID: 6178113725801862583}
   - component: {fileID: 6169386938918613207}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_Rifle_03_Magazine_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 6180459961131716955}
   - component: {fileID: 6175297301584348689}
   - component: {fileID: 6167943630844310607}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_Rifle_03_Slide_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 6180342259847031225}
   - component: {fileID: 6177941656435064155}
   - component: {fileID: 6167877992029538289}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SM_Wep_Rifle_03_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 6169744567394400315}
   - component: {fileID: 2708088832382981345}
   - component: {fileID: 6182123121850775682}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Homemade Rifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,6 +433,7 @@ MonoBehaviour:
   weaponName: Homemade Porridge
   weaponDamage: 145
   weaponRarity: 0
+  weaponType: 1
   maxAmmoCount: 80
   clipSize: 7
   currentClipCount: 0
@@ -465,7 +466,7 @@ MonoBehaviour:
   adsFOVSpeed: 0.03
   ignoreZone:
     serializedVersion: 2
-    m_Bits: 1792
+    m_Bits: 1796
 --- !u!1001 &1197333712175084492
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -473,9 +474,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6180147108441882059}
     m_Modifications:
+    - target: {fileID: 1776867762355228, guid: 0e63771b228a7f74da8b88a30a179133, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1892609755830046, guid: 0e63771b228a7f74da8b88a30a179133, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Mod_Loader_06
+      objectReference: {fileID: 0}
+    - target: {fileID: 1892609755830046, guid: 0e63771b228a7f74da8b88a30a179133, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1892609755830046, guid: 0e63771b228a7f74da8b88a30a179133, type: 3}
       propertyPath: m_IsActive

@@ -2,54 +2,72 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using Photon.Pun;
 
-public class Inventory : MonoBehaviour
+public class Inventory : MonoBehaviourPunCallbacks
 {
     [SerializeField] List<Weapon> weapons = null;
     [SerializeField] int currentWeaponHeld = 0;
     [Space]
-    [SerializeField] PlayerController player;
-    [SerializeField] PlayerGUI gui;
-    [SerializeField] CinemachineVirtualCamera virtualCamera;
+    [SerializeField] PlayerController player = null;
+    [SerializeField] PlayerAnimations animations = null;
+    [SerializeField] PlayerGUI gui = null;
+    [SerializeField] CinemachineVirtualCamera virtualCamera = null;
     [Space]
     [Header("Debugging")]
     [SerializeField] bool forceWeaponSwaps;
 
+    void Start(){
+        WeaponAnimBool(weapons[0]);
+    }
+
     public void UpdateBulletCount(int clip, int reserve){
-        gui.UpdateDisplayedAmmo(clip, reserve);
+        if(photonView.IsMine)
+            gui.UpdateDisplayedAmmo(clip, reserve);
     }
 
     public void AddKillPoints(){
-        player.AddPoints(100);
+        if(photonView.IsMine)
+            player.AddPoints(100);
     }
 
     public CinemachineVirtualCamera ReturnCinemachineVCam(){
-        return virtualCamera;
+        if(photonView.IsMine)
+            return virtualCamera;
+        else
+            return null;
     }
 
     public void AddNewWeapon(Weapon weapon){
-        // take new weapon animation play?
-        int i = GetWeaponSlotPlacement();
-        Weapon m_weapon = Instantiate(weapon, gameObject.transform);;
-        
-        // fix location
-        if(weapons[i] == null)
-            weapons[i] = m_weapon;
-        else{
-            Destroy(weapons[i].gameObject);
-            weapons[i] = m_weapon;
-        }
+        if(photonView.IsMine){
+            // take new weapon animation play?
+            int i = GetWeaponSlotPlacement();
+            Weapon m_weapon = Instantiate(weapon, gameObject.transform); ;
 
-        ChangeHeldWeapon(i);
-        // swap to other weapon
+            // fix location
+            if (weapons[i] == null)
+                weapons[i] = m_weapon;
+            else
+            {
+                Destroy(weapons[i].gameObject);
+                weapons[i] = m_weapon;
+            }
+
+            ChangeHeldWeapon(i);
+            // swap to other weapon
+        }
     }
 
     int GetWeaponSlotPlacement(){
-        for (int i = 0; i < weapons.Count; i++)
-        {
-            if(weapons[i] == null){
-                return i;
+        if(photonView.IsMine){
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                if(weapons[i] == null){
+                    return i;
+                }
             }
+
+            return currentWeaponHeld;
         }
 
         return currentWeaponHeld;
@@ -98,6 +116,8 @@ public class Inventory : MonoBehaviour
             weapons[newActiveNumber].SetWeaponActive(true);
             UpdateBulletCount(weapons[newActiveNumber].GetComponent<Gun>().ReturnCurrentClipCount(), weapons[newActiveNumber].GetComponent<Gun>().ReturnCurrentAmmoReserve());
         }
+
+        WeaponAnimBool(weapons[newActiveNumber]);
     }
 
     int CountWeaponList(){
@@ -109,5 +129,24 @@ public class Inventory : MonoBehaviour
         }
 
         return c;
+    }
+
+    void WeaponAnimBool(Weapon weap){
+        switch(weap.weaponType){
+            case Weapon.WeaponType.pistol:
+                animations.SetAnimBool("Pistol", true);
+                animations.SetAnimBool("Rifle", false);
+                break;
+            case Weapon.WeaponType.rifle:
+                animations.SetAnimBool("Pistol", false);
+                animations.SetAnimBool("Rifle", true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void TriggerReloadAnim(){
+        animations.SetAnimTrigger("ReloadRifle");
     }
 }
