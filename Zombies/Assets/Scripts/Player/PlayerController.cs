@@ -13,9 +13,11 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     [Header("Multiplayer Objects")]
     [SerializeField] GameObject[] myView = null;
+    [SerializeField] GameObject[] teamView = null;
     [SerializeField] Camera camToDisable = null;
     [SerializeField] SkinnedMeshRenderer[] s_renderForTeam = null;
     [SerializeField] MeshRenderer[] renderForTeam = null;
+    [SerializeField] GameObject root = null;
 
     InputManager inputManager;
     ZoneManager zoneManager;
@@ -23,34 +25,50 @@ public class PlayerController : MonoBehaviourPunCallbacks
     PlayerHealth health;
     
     Interactable interaction = null;
+    Quaternion rot;
 
     float mouseScrollY;
 
     void Start(){
-        if(photonView.IsMine || GameManager.Instance.IsGameOffline()){
+        if(photonView.IsMine){
             foreach(GameObject check in myView)
                 check.SetActive(true);
 
-            if(camToDisable != null)
-                camToDisable.enabled = true;
+            foreach(GameObject check in teamView)
+                check.SetActive(false);
 
+            if(camToDisable != null){
+                camToDisable.enabled = true;
+                camToDisable.GetComponent<AudioListener>().enabled = true;
+            }
+            
+            /*
             foreach(SkinnedMeshRenderer check in s_renderForTeam)
                 check.enabled = false;
           
             foreach(MeshRenderer check in renderForTeam)
                 check.enabled = false;
+            */
         }else if(!photonView.IsMine){
             foreach(GameObject check in myView)
                 check.SetActive(false);
 
-            if(camToDisable != null)
-                camToDisable.enabled = false;
+            foreach(GameObject check in teamView)
+                check.SetActive(true);
 
+            if(camToDisable != null){
+                camToDisable.enabled = false;
+                camToDisable.GetComponent<AudioListener>().enabled = false;
+            }
+
+            /*
             foreach(SkinnedMeshRenderer check in s_renderForTeam)
                 check.enabled = true;
 
             foreach(MeshRenderer check in renderForTeam)
                 check.enabled = true;
+            */
+            
         }
 
         inputManager = InputManager.Instance;
@@ -67,8 +85,22 @@ public class PlayerController : MonoBehaviourPunCallbacks
 
     private void Update() {
         
+        if(photonView.IsMine){
+            // Rotate Visuals
+            rot = camToDisable.transform.localRotation;
+            rot.x = 0;
+            rot.z = 0;
+        }
+        
+        if(!photonView.IsMine)
+            root.transform.localRotation = rot;
+
         if(!photonView.IsMine)
             return;
+
+        
+
+        
 
         // CHECK FOR INTERACTIONS
         if(interaction != null){

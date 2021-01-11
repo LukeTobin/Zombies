@@ -18,7 +18,8 @@ public class Inventory : MonoBehaviourPunCallbacks
     [SerializeField] bool forceWeaponSwaps;
 
     void Start(){
-        WeaponAnimBool(weapons[0]);
+        if(photonView.IsMine)
+            WeaponAnimBool(weapons[0]);
     }
 
     public void UpdateBulletCount(int clip, int reserve){
@@ -132,6 +133,9 @@ public class Inventory : MonoBehaviourPunCallbacks
     }
 
     void WeaponAnimBool(Weapon weap){
+        if(!photonView.IsMine)
+            return;
+
         switch(weap.weaponType){
             case Weapon.WeaponType.pistol:
                 animations.SetAnimBool("Pistol", true);
@@ -147,6 +151,7 @@ public class Inventory : MonoBehaviourPunCallbacks
     }
 
     public void TriggerReloadAnim(){
-        animations.SetAnimTrigger("ReloadRifle");
+        if(photonView.IsMine)
+            animations.SetAnimTrigger("ReloadRifle");
     }
 }
