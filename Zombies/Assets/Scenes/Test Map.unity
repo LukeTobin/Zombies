@@ -971,6 +971,11 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4614956683023556685, guid: e237745232e36ae4ba0f51c6fed6975e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6103568483120462239, guid: e237745232e36ae4ba0f51c6fed6975e,
         type: 3}
       propertyPath: weapons.Array.data[1]
@@ -1100,6 +1105,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6114189482307588131, guid: e237745232e36ae4ba0f51c6fed6975e,
+        type: 3}
+      propertyPath: viewIdField
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9129871193334830926, guid: e237745232e36ae4ba0f51c6fed6975e,
         type: 3}
@@ -3603,7 +3613,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh17444
+  m_Name: pb_Mesh56046
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

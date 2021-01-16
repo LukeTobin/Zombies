@@ -173,9 +173,6 @@ public class Gun : Weapon
     [PunRPC]
     public void Shoot()
     {
-        if(photonView.IsMine){
-            Debug.Log("i shot");
-        }
         // Create Raycast & Forward Vector
         RaycastHit hit;
         Vector3 forwardVector = Vector3.forward;

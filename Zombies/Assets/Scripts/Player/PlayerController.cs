@@ -2,7 +2,7 @@
 using UnityEngine;
 using Photon.Pun;
 
-public class PlayerController : MonoBehaviourPunCallbacks
+public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
 {
     [Header("Points")]
     [SerializeField] int currentPoints = 0;
@@ -12,12 +12,16 @@ public class PlayerController : MonoBehaviourPunCallbacks
     [SerializeField] Inventory inventory = null;
 
     [Header("Multiplayer Objects")]
-    [SerializeField] GameObject[] myView = null;
-    [SerializeField] GameObject[] teamView = null;
+    [SerializeField] GameObject[] myViewOnly = null;
+    [SerializeField] GameObject[] teamViewOnly = null;
     [SerializeField] Camera camToDisable = null;
-    [SerializeField] SkinnedMeshRenderer[] s_renderForTeam = null;
-    [SerializeField] MeshRenderer[] renderForTeam = null;
-    [SerializeField] GameObject root = null;
+    [SerializeField] SkinnedMeshRenderer[] meshRenderForTeamOnly = null;
+    
+    [Header("Debug")]
+    [SerializeField] float value;
+    [SerializeField] float real_value;
+    [Space]
+    [SerializeField] float cachedRotAngle = 0;
 
     InputManager inputManager;
     ZoneManager zoneManager;
@@ -25,50 +29,58 @@ public class PlayerController : MonoBehaviourPunCallbacks
     PlayerHealth health;
     
     Interactable interaction = null;
-    Quaternion rot;
 
     float mouseScrollY;
 
+    public void OnPhotonSerializeView(PhotonStream p_stream, PhotonMessageInfo p_message){
+        if(p_stream.IsWriting){
+            //cachedRotAngle = camToDisable.transform.localRotation.y;
+            //p_stream.SendNext((Quaternion)currentRotation);
+        }else{
+            //readRotation = (Quaternion)p_stream.ReceiveNext();
+        }
+    }
+
     void Start(){
         if(photonView.IsMine){
-            foreach(GameObject check in myView)
+            foreach(GameObject check in myViewOnly)
                 check.SetActive(true);
 
-            foreach(GameObject check in teamView)
-                check.SetActive(false);
+            if(teamViewOnly != null){
+                foreach(GameObject check in teamViewOnly)
+                    check.SetActive(false);
+            }
 
             if(camToDisable != null){
                 camToDisable.enabled = true;
                 camToDisable.GetComponent<AudioListener>().enabled = true;
             }
+
+            if(meshRenderForTeamOnly != null){
+                foreach(SkinnedMeshRenderer check in meshRenderForTeamOnly){
+                    check.enabled = false;
+                }
+            }
             
-            /*
-            foreach(SkinnedMeshRenderer check in s_renderForTeam)
-                check.enabled = false;
-          
-            foreach(MeshRenderer check in renderForTeam)
-                check.enabled = false;
-            */
         }else if(!photonView.IsMine){
-            foreach(GameObject check in myView)
+            foreach(GameObject check in myViewOnly)
                 check.SetActive(false);
 
-            foreach(GameObject check in teamView)
-                check.SetActive(true);
+            if(teamViewOnly != null){
+                foreach(GameObject check in teamViewOnly)
+                    check.SetActive(true);
+            }
 
             if(camToDisable != null){
                 camToDisable.enabled = false;
                 camToDisable.GetComponent<AudioListener>().enabled = false;
             }
 
-            /*
-            foreach(SkinnedMeshRenderer check in s_renderForTeam)
-                check.enabled = true;
-
-            foreach(MeshRenderer check in renderForTeam)
-                check.enabled = true;
-            */
-            
+            if(meshRenderForTeamOnly != null){
+                foreach(SkinnedMeshRenderer check in meshRenderForTeamOnly){
+                    check.enabled = true;
+                }
+            }     
         }
 
         inputManager = InputManager.Instance;
@@ -84,23 +96,9 @@ public class PlayerController : MonoBehaviourPunCallbacks
     }
 
     private void Update() {
-        
-        if(photonView.IsMine){
-            // Rotate Visuals
-            rot = camToDisable.transform.localRotation;
-            rot.x = 0;
-            rot.z = 0;
-        }
-        
-        if(!photonView.IsMine)
-            root.transform.localRotation = rot;
-
-        if(!photonView.IsMine)
+        if(!photonView.IsMine){ 
             return;
-
-        
-
-        
+        }
 
         // CHECK FOR INTERACTIONS
         if(interaction != null){
@@ -125,11 +123,7 @@ public class PlayerController : MonoBehaviourPunCallbacks
             if(inventory != null)
                 inventory.SwapWeapon(mouseScrollY);
         }
-    }
-
-    [PunRPC]
-    void Test(){
-        Debug.Log("TESTED");
+        
     }
 
     public void AddPoints(int pointsToAdd){
