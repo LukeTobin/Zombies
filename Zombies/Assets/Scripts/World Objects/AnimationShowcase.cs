@@ -6,6 +6,7 @@ public class AnimationShowcase : MonoBehaviour
 {
     enum PlayerAnimationShowcase{
         none,
+        test,
         rifleIdle,
         reloadRifle,
         reloadRifleMoving,
@@ -57,6 +58,9 @@ public class AnimationShowcase : MonoBehaviour
                 animator.SetFloat("Movement", 3);
                 animator.SetBool("Sprint", true);
                 animator.SetBool("Pistol", true);
+                break;
+            case PlayerAnimationShowcase.test:
+                animator.SetBool("Test", true);
                 break;
             default:
                 break;

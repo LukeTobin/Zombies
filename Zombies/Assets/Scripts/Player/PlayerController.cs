@@ -150,6 +150,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
             return;
 
         inventory.AddNewWeapon(weapon);
+        weapon.PlayWeaponTakeAudio();
     }
 
     public int GetCurrentPoints(){

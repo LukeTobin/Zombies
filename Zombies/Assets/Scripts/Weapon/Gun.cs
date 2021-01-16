@@ -17,7 +17,7 @@ public class Gun : Weapon
     [Space]
     [SerializeField] int currentClipCount = 0;
     [SerializeField] int currentReserve = 0;
-    [Space]
+
     [Header("Bullets")]
     [SerializeField] float fireRate = 0.05f;
     [SerializeField] float adsRate = 1.5f;
@@ -25,7 +25,7 @@ public class Gun : Weapon
     [SerializeField] float bulletRange = 1000f;
     [SerializeField] float reloadTime = 1f;
     [SerializeField] bool isAutomatic = false;
-    [Space]
+
     [Header("Recoil")]
     [SerializeField] float bulletSpread = 20f;
     [SerializeField] float adsSpreadControl = 3f;
@@ -38,24 +38,33 @@ public class Gun : Weapon
     [SerializeField] float adsX = 0f;
     [SerializeField] float adsY = 0f;
     [SerializeField] float adsZ = 0f;
-    [Space]
+
     [Header("Effects")]
     [SerializeField] GameObject decalPrefab = null;
     [SerializeField] ParticleSystem bulletFire = null;
     [SerializeField] ParticleSystem bloodParticles = null;
     [SerializeField] ParticleSystem impactParticles = null;
     [Space]
-    [SerializeField] AudioSource bulletSFX = null;
+    [SerializeField] AudioClip reloadSFX = null;
+    [SerializeField] AudioClip defaultShotSFX = null;
+    [SerializeField] AudioClip silencedShotSFX = null;
+    [SerializeField] AudioClip holsterWeaponSFX = null;
+    [SerializeField] AudioClip takeWeaponSFX = null;
+    [SerializeField] AudioClip aimWeaponSFX = null;
     [Space]
+    [SerializeField] List<AudioClip> impactSounds = null;
+
+    [Header("States")]
+    [SerializeField] bool silencer = false;
+
     [Header("Weapon Sway")]
     [SerializeField] float swayIntensity = 0.8f;
     [SerializeField] float swaySmoothing = 1.6f;
     [SerializeField] float adsFOVSpeed = 0.03f;
-    [Space]
+
     [Header("Requires")]
     [Tooltip("Ignore Zone, Weapon Buy's and any Collider based objects that don't need to be hit by bullets.")]
     [SerializeField] LayerMask ignoreZone = 8;
-    [Space]
     
     #endregion
 
@@ -64,7 +73,7 @@ public class Gun : Weapon
     InputManager inputManager;
     Camera cam;
     CinemachineVirtualCamera vcam;
-    
+    AudioSource audioSource;
     Inventory inventory;
 
     bool reloading;
@@ -92,6 +101,7 @@ public class Gun : Weapon
         cam = Camera.main;
         inventory = GetComponentInParent<Inventory>();
         vcam = inventory.ReturnCinemachineVCam();
+        audioSource = GetComponent<AudioSource>();
 
         hipLocation = transform.localPosition;
         hipAngle = transform.localEulerAngles;
@@ -109,7 +119,10 @@ public class Gun : Weapon
         if(inventory != null)
             inventory.UpdateBulletCount(currentClipCount, currentReserve);
 
-        bulletSFX.UnPause();
+        if(silencer)
+            audioSource.clip = silencedShotSFX;
+        else
+            audioSource.clip = defaultShotSFX;
     }
 
     private void Update()
@@ -128,7 +141,6 @@ public class Gun : Weapon
         if(isAutomatic)
             triggerHeld = inputManager.PlayerTriggerHeld();
         
-
         // Autofire for when trigger is held
         if(triggerHeld && !reloading && isAutomatic){
             if(timeBetweenShot > 0){
@@ -166,6 +178,20 @@ public class Gun : Weapon
         }
     }
 
+    public override void PlayWeaponHolsterAudio()
+    {
+        audioSource.clip = holsterWeaponSFX;
+        audioSource.Play();
+        base.PlayWeaponHolsterAudio();
+    }
+
+    public override void PlayWeaponTakeAudio()
+    {
+        audioSource.clip = takeWeaponSFX;
+        audioSource.Play();
+        base.PlayWeaponTakeAudio();
+    }
+
     #endregion
 
     #region Private Methods
@@ -177,10 +203,21 @@ public class Gun : Weapon
         RaycastHit hit;
         Vector3 forwardVector = Vector3.forward;
 
-        // Play Audio for Firing
-        if(bulletSFX != null)
-            bulletSFX.Play();
+        // Shooting Effects
+        // Audio
+        if(silencer)
+            audioSource.clip = silencedShotSFX;
+        else
+            audioSource.clip = defaultShotSFX;
 
+        if(audioSource != null)
+            audioSource.Play();
+
+        // Particle Effect
+        if(bulletFire != null)
+            bulletFire.Play();
+
+        // Recoil if photonView is Mine
         if(photonView.IsMine){
             // Apply Weapon Recoil
             StartRecoil(0.2f, maxRecoilHorizontal);       
@@ -217,6 +254,8 @@ public class Gun : Weapon
                     inventory.AddKillPoints();
                 }
             } else{
+                audioSource.clip = impactSounds[Random.Range(0, impactSounds.Count)];
+                audioSource.Play();
                 GameObject bulletDecal = Instantiate(decalPrefab, hit.point + hit.normal * 0.001f, Quaternion.identity) as GameObject;
                 bulletDecal.transform.LookAt(hit.point + hit.normal);
                 Destroy(bulletDecal, 7f);
@@ -267,6 +306,8 @@ public class Gun : Weapon
         if(currentReserve > 0 && !reloading){
             reloading = true;
             inventory.TriggerReloadAnim();
+            audioSource.clip = reloadSFX;
+            audioSource.Play();
             StartCoroutine(WaitForReload());
             //StartCoroutine(LowerWeapon());
         }
@@ -292,7 +333,7 @@ public class Gun : Weapon
     void AimGun(bool isAiming){
         if(isAiming){
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(adsX, adsY, adsZ), (Time.deltaTime * adsRate));
-            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, (defaultFOV / 1.5f), adsFOVSpeed);         
+            vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, (defaultFOV / 1.5f), adsFOVSpeed);
         }else if(transform.localPosition != hipLocation){
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, hipLocation, Time.deltaTime * adsRate);
             vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, defaultFOV, adsFOVSpeed); 

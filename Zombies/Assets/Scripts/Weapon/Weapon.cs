@@ -26,6 +26,14 @@ public class Weapon : MonoBehaviourPunCallbacks
     public Rarity weaponRarity = Rarity.common;
     public WeaponType weaponType = WeaponType.none;
 
+    public virtual void PlayWeaponHolsterAudio(){
+
+    }
+
+    public virtual void PlayWeaponTakeAudio(){
+
+    }
+
     public void SetWeaponActive(bool condition){
         if(photonView.IsMine)
             gameObject.SetActive(condition);

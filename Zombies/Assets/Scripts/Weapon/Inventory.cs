@@ -77,6 +77,7 @@ public class Inventory : MonoBehaviourPunCallbacks
     public void SwapWeapon(float direction){
         int weaponListSize = CountWeaponList();
         if(weaponListSize > 1){
+            weapons[currentWeaponHeld].PlayWeaponHolsterAudio();
             // > = UP || < = DOWN
             if (direction > 0)
             {
@@ -119,6 +120,7 @@ public class Inventory : MonoBehaviourPunCallbacks
         }
 
         WeaponAnimBool(weapons[newActiveNumber]);
+        weapons[newActiveNumber].PlayWeaponTakeAudio();
     }
 
     int CountWeaponList(){

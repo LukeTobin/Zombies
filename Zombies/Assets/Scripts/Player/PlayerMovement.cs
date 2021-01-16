@@ -17,12 +17,16 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     [SerializeField] float gravityValue = -9.81f;
     [Space]
     [SerializeField] Transform weaponParent = null;
+    
+    [Header("SFX")]
+    [SerializeField] AudioClip defaultWalk = null;
 
     InputManager inputManager;
     Camera camera;
     CinemachineVirtualCamera virtualCamera;
     Transform cameraTransform;
     PlayerAnimations animations;
+    AudioSource audioSource;
 
     Vector3 weaponParentOrigin;
     Vector3 targetWeaponBobPosition;
@@ -45,6 +49,8 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             weaponParentOrigin = weaponParent.localPosition;
             defaultFOV = virtualCamera.m_Lens.FieldOfView;
             animations = GetComponent<PlayerAnimations>();
+            audioSource = GetComponent<AudioSource>();
+            audioSource.clip = defaultWalk;
         }
     }
 
@@ -70,8 +76,10 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         
         if(movement.x != 0 || movement.y != 0){
             animations.SetAnimFloat("Movement", 1);
+            PlayWalkSFX(true);
         }else{
             animations.SetAnimFloat("Movement", 0);
+            PlayWalkSFX(false);
         }
 
         if(inputManager.PlayerAimHeld())
@@ -127,5 +135,17 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
 
     void Headbob(float c, float xIntensity, float yIntensity){
         targetWeaponBobPosition = weaponParentOrigin + new Vector3(Mathf.Cos(c) * xIntensity, Mathf.Sin(c * 2) * yIntensity, 0); 
+    }
+    
+    void PlayWalkSFX(bool start){
+        if(start){
+            if(!audioSource.isPlaying){
+                audioSource.Play();
+            }
+        }else{
+            if(audioSource.isPlaying){
+                audioSource.Pause();
+            }
+        }
     }
 }
