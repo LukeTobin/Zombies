@@ -28,8 +28,9 @@ public class Inventory : MonoBehaviourPunCallbacks
     }
 
     public void AddKillPoints(){
-        if(photonView.IsMine)
-            player.AddPoints(100);
+        if(photonView.IsMine){
+            player.AddPoints(Random.Range(90, 120));
+        }
     }
 
     public CinemachineVirtualCamera ReturnCinemachineVCam(){

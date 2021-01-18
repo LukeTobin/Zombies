@@ -317,10 +317,10 @@ public class Gun : Weapon
         Vector2 mouseRotation = inputManager.GetMouseDelta();
 
         if(aimHeld){
-            Quaternion adjacentX = Quaternion.AngleAxis((-swayIntensity/4) * mouseRotation.x, Vector3.up);
-            Quaternion adjacentY = Quaternion.AngleAxis((swayIntensity/4) * mouseRotation.y, Vector3.right);
+            Quaternion adjacentX = Quaternion.AngleAxis((-swayIntensity/7) * mouseRotation.x, Vector3.up);
+            Quaternion adjacentY = Quaternion.AngleAxis((swayIntensity/7) * mouseRotation.y, Vector3.right);
             Quaternion targetRotation = rotationOrigin * adjacentX * adjacentY;
-            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * (swaySmoothing * 6));
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, Time.deltaTime * (swaySmoothing * 6.5f));
         }       
         else{
             Quaternion adjacentX = Quaternion.AngleAxis(-swayIntensity * mouseRotation.x, Vector3.up);
@@ -331,12 +331,14 @@ public class Gun : Weapon
     }
 
     void AimGun(bool isAiming){
-        if(isAiming){
+        if(isAiming && !reloading){
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(adsX, adsY, adsZ), (Time.deltaTime * adsRate));
             vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, (defaultFOV / 1.5f), adsFOVSpeed);
-        }else if(transform.localPosition != hipLocation){
+        }else if(transform.localPosition != hipLocation && !reloading){
             transform.localPosition = Vector3.MoveTowards(transform.localPosition, hipLocation, Time.deltaTime * adsRate);
             vcam.m_Lens.FieldOfView = Mathf.Lerp(vcam.m_Lens.FieldOfView, defaultFOV, adsFOVSpeed); 
+        }else if(reloading){
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, new Vector3(transform.localPosition.x, -1, transform.localPosition.y), Time.deltaTime * 2f);
         }
     }
 
@@ -375,20 +377,6 @@ public class Gun : Weapon
         inventory.UpdateBulletCount(currentClipCount, currentReserve);
         reloading = false;
     }  
-
-    IEnumerator LowerWeapon(){
-        while(transform.position.x != -0.4f){
-            transform.position -= new Vector3(1, 1) * (Time.deltaTime * 10f);
-            yield return null;
-        }
-    }
-
-    IEnumerator RaiseWeapon(){
-        while(transform.position.x != 0.15f){
-            transform.position += new Vector3(1, 1) * (Time.deltaTime * 10f);
-            yield return null;
-        }
-    }
 
     IEnumerator RemoveEffect(GameObject efx){
         yield return new WaitForSeconds(1f);

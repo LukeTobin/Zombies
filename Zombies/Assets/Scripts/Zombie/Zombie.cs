@@ -28,6 +28,9 @@ public class Zombie : MonoBehaviour
     [Space]
     [SerializeField] float waitToAttack = 0.7f;
     [SerializeField] bool idleStance = false;
+    
+    [Header("Loot Table")]
+    [SerializeField] List<Drop> loot = null;
 
     [Header("Prototype")]
     [SerializeField] float distanceFromTarget = 0;
@@ -109,6 +112,7 @@ public class Zombie : MonoBehaviour
 
     // Kill zombie & Update zombies remaining & add the zombie back into the object pool
     public void KillZombie(){
+        DropLoot();
         RoundManager.Instance.UpdateZombiesRemaining(this);
         ObjectPool.SharedInstance.ReturnPooledObject(gameObject, ObjectPool.ObjectType.Zombie);
     }
@@ -134,6 +138,15 @@ public class Zombie : MonoBehaviour
             target.TakeDamage(dmg);
 
             currentWaitTime = waitToAttack;
+        }
+    }
+
+    private void DropLoot(){
+        int percent = Random.Range(0, 100);
+        foreach(Drop drop in loot){
+            if(percent < drop.dropChance){
+                Debug.Log("Dropping " + drop.objectId);
+            }
         }
     }
 
