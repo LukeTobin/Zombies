@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
     [Header("Points")]
     [SerializeField] int currentPoints = 0;
     [SerializeField] int allPoints = 0;
+    [SerializeField] int scrap = 0;
 
     [Header("References")]
     [SerializeField] Inventory inventory = null;
@@ -176,6 +177,10 @@ public class PlayerController : MonoBehaviourPunCallbacks, IPunObservable
         if(other.GetComponent<Interactable>()){
             interaction = other.GetComponent<Interactable>();
             gui.InterationPopup(interaction.GetInteractionText(), true);
+        }
+
+        if(other.GetComponent<ItemDrop>()){
+            other.GetComponent<ItemDrop>().PickupItem();
         }
     }
 

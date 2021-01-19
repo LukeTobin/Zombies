@@ -74,6 +74,7 @@ public class Gun : Weapon
     Camera cam;
     CinemachineVirtualCamera vcam;
     AudioSource audioSource;
+    AudioSource audioSource2;
     Inventory inventory;
 
     bool reloading;
@@ -102,6 +103,7 @@ public class Gun : Weapon
         inventory = GetComponentInParent<Inventory>();
         vcam = inventory.ReturnCinemachineVCam();
         audioSource = GetComponent<AudioSource>();
+        audioSource2 = GetComponentInParent<AudioSource>();
 
         hipLocation = transform.localPosition;
         hipAngle = transform.localEulerAngles;
@@ -254,12 +256,13 @@ public class Gun : Weapon
                     inventory.AddKillPoints();
                 }
             } else{
-                audioSource.clip = impactSounds[Random.Range(0, impactSounds.Count)];
-                audioSource.Play();
+               // audioSource.clip = impactSounds[Random.Range(0, impactSounds.Count)];
+                audioSource.PlayOneShot(impactSounds[Random.Range(0, impactSounds.Count)]);
                 GameObject bulletDecal = Instantiate(decalPrefab, hit.point + hit.normal * 0.001f, Quaternion.identity) as GameObject;
                 bulletDecal.transform.LookAt(hit.point + hit.normal);
                 Destroy(bulletDecal, 7f);
             }
+            
         }
 
         if(photonView.IsMine){
