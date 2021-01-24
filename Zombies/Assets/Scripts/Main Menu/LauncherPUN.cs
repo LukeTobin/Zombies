@@ -32,12 +32,6 @@ public class LauncherPUN : MonoBehaviourPunCallbacks
         Instance = this;
     }
 
-    void Start()
-    {
-        // connect to the Photon servers.
-        //PhotonNetwork.ConnectUsingSettings();
-    }
-
     private void Update()
     {
         if(isOnline)
@@ -100,7 +94,7 @@ public class LauncherPUN : MonoBehaviourPunCallbacks
     /// </summary>
     void UpdateUsername()
     {
-        if (username.text.Length <= 0)
+        if (string.IsNullOrEmpty(username.text))
         {
             Debug.Log("was null");
             int num = Random.Range(0, 999);
