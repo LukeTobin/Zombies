@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4043989925895998223}
   - component: {fileID: 3763404178733800721}
   - component: {fileID: 4057155277007804216}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,10 +63,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -87,6 +88,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!82 &3763404178733800721
 AudioSource:
   m_ObjectHideFlags: 0
@@ -242,7 +244,7 @@ MonoBehaviour:
   adsFOVSpeed: 0.03
   ignoreZone:
     serializedVersion: 2
-    m_Bits: 1796
+    m_Bits: 3844
 --- !u!1 &4055810089968422713
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +256,7 @@ GameObject:
   - component: {fileID: 4061568151066393215}
   - component: {fileID: 4051730533731251729}
   - component: {fileID: 4044003659201569485}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: SM_Wep_Pistol_01_Slide_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,10 +300,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -322,6 +325,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4055846538722896281
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +337,7 @@ GameObject:
   - component: {fileID: 4061192506369897701}
   - component: {fileID: 4052066753992166743}
   - component: {fileID: 4043941855729477523}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: SM_Wep_Pistol_01_Silencer_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,10 +381,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 8d4b94511cf21ee408dacd7fef7b391b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -401,6 +406,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4056367660218769469
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +418,7 @@ GameObject:
   - component: {fileID: 4053807004171584807}
   - component: {fileID: 4051828528656192233}
   - component: {fileID: 4044112337480701005}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: SM_Wep_Pistol_01_Stock_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -456,10 +462,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -480,6 +487,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4056498234503543093
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,7 +499,7 @@ GameObject:
   - component: {fileID: 4061258050321067173}
   - component: {fileID: 4051721542918242003}
   - component: {fileID: 4042531883949529249}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: SM_Wep_Pistol_01_Magazine_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -535,10 +543,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -559,6 +568,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4057221172320686141
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,7 +580,7 @@ GameObject:
   - component: {fileID: 4053927154108655029}
   - component: {fileID: 4051807234479112097}
   - component: {fileID: 4042405551271478383}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: SM_Wep_Pistol_01_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -614,10 +624,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -638,6 +649,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1001 &9063440809318958094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -648,6 +660,18 @@ PrefabInstance:
     - target: {fileID: 1320275964731592, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
       propertyPath: m_Name
       value: FX_Gunshot_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320275964731592, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706791323426068, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753057219379398, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4056852919073388, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
       propertyPath: m_RootOrder

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2239132818569156893}
   - component: {fileID: 2263384262383188407}
   - component: {fileID: 2254070342086793879}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: SM_Wep_AssaultRifle_02_Trigger_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,10 +55,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -79,6 +80,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2240659491684154555
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +92,7 @@ GameObject:
   - component: {fileID: 2239366390720731203}
   - component: {fileID: 2263398470411807673}
   - component: {fileID: 2255743554006664827}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: SM_Wep_AssaultRifle_02_Slide_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,10 +136,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -158,6 +161,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2240819480032054401
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,7 +175,7 @@ GameObject:
   - component: {fileID: 2256218023022323441}
   - component: {fileID: -5971469225764870050}
   - component: {fileID: 2241807553269963226}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: AK-47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -194,6 +198,7 @@ Transform:
   - {fileID: 2239366390720731203}
   - {fileID: 2239132818569156893}
   - {fileID: 8499103671790129892}
+  - {fileID: 7826514153916785427}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -220,10 +225,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -244,6 +250,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!82 &-5971469225764870050
 AudioSource:
   m_ObjectHideFlags: 0
@@ -399,7 +406,7 @@ MonoBehaviour:
   adsFOVSpeed: 0.03
   ignoreZone:
     serializedVersion: 2
-    m_Bits: 1796
+    m_Bits: 3844
 --- !u!1 &2241204034110272361
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,7 +418,7 @@ GameObject:
   - component: {fileID: 2237518535166242141}
   - component: {fileID: 2262001300592464941}
   - component: {fileID: 2255794416913822427}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: SM_Wep_AssaultRifle_02_Magazine_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,10 +462,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -479,6 +487,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2242616866462123133
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,7 +499,7 @@ GameObject:
   - component: {fileID: 2237665753578807619}
   - component: {fileID: 2263821770166175081}
   - component: {fileID: 2256228458745039859}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: SM_Wep_AssaultRifle_02_Handle_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -534,10 +543,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5bb68a94905ffc0418608fc7e572ea42, type: 2}
+  - {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -558,6 +568,88 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1001 &7821671869710362683
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2239277578491954083}
+    m_Modifications:
+    - target: {fileID: 1317305901009090, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_Name
+      value: SM_Wep_Mod_Attach_Silencer_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 1317305901009090, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1317305901009090, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.088
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.6111
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23197826912584372, guid: ef129d0e65696f54e88ef1fcb3366c05,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23197826912584372, guid: ef129d0e65696f54e88ef1fcb3366c05,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4e6d63ffe5857a54dac2dac069ca4c33, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ef129d0e65696f54e88ef1fcb3366c05, type: 3}
+--- !u!4 &7826514153916785427 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4912857833966376, guid: ef129d0e65696f54e88ef1fcb3366c05,
+    type: 3}
+  m_PrefabInstance: {fileID: 7821671869710362683}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8501820201780734088
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -569,9 +661,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_Gunshot_01
       objectReference: {fileID: 0}
+    - target: {fileID: 1320275964731592, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1706791323426068, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 1706791323426068, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753057219379398, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4056852919073388, guid: 0624c6f5a57851d48ba74b4f86ec13d7, type: 3}
       propertyPath: m_RootOrder

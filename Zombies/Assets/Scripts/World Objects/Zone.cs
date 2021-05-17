@@ -8,6 +8,7 @@ public class Zone : MonoBehaviour
     [SerializeField] string zone_id = "zone_";
     [SerializeField] bool hasLock = false;
     [Space]
+    [SerializeField] List<Zone> similarZones = null;
     [SerializeField] List<Zone> neighbourZones = null;
     [SerializeField] List<ZombieSpawner> spawners = null;
     
@@ -36,6 +37,10 @@ public class Zone : MonoBehaviour
         }
         return _zones;
         */
+    }
+
+    public List<Zone> GetSimilarZones(){
+        return similarZones;
     }
 
     public void SetZoneLock(bool locked){

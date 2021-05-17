@@ -23,8 +23,11 @@ public class GameManager : MonoBehaviour
     }
 
     public void SpawnPlayer(){
-        if(!offlineMode)
+        if(!offlineMode){
             PhotonNetwork.Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+            // make sure it gets the right player
+            player = FindObjectOfType<PlayerController>();
+        }
         else
             player.gameObject.SetActive(true);
     }

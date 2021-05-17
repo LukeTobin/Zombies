@@ -9,7 +9,22 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     private Vector3 playerVelocity;
     private bool groundedPlayer;
     private bool sprintingPlayer;
+
+    // SFX Struct
+    [System.Serializable]
+    public struct WalkingAudio{
+        public AudioClip[] concreteWalk;
+        public AudioClip[] dirtWalk;
+    }
+
+    // Surface enum
+    enum Surface{
+        Concrete,
+        Dirt,
+        Grass
+    }
     
+    [Header("Modifiers")]
     [SerializeField] float playerSpeed = 1.8f;
     [SerializeField] float sprintMultiplier = 1.4f;
     [SerializeField] float adsMovementPenalty = 0.4f;
@@ -19,14 +34,18 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     [SerializeField] Transform weaponParent = null;
     
     [Header("SFX")]
-    [SerializeField] AudioClip defaultWalk = null;
+    [SerializeField] AudioSource audioSource;
+    public WalkingAudio walkingAudio;
 
+    [Header("Debug")]
+    [SerializeField] Surface surface;
+    
     InputManager inputManager;
     Camera camera;
     CinemachineVirtualCamera virtualCamera;
     Transform cameraTransform;
     PlayerAnimations animations;
-    AudioSource audioSource;
+    
 
     Vector3 weaponParentOrigin;
     Vector3 targetWeaponBobPosition;
@@ -49,8 +68,6 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
             weaponParentOrigin = weaponParent.localPosition;
             defaultFOV = virtualCamera.m_Lens.FieldOfView;
             animations = GetComponent<PlayerAnimations>();
-            audioSource = GetComponent<AudioSource>();
-            audioSource.clip = defaultWalk;
         }
     }
 
@@ -137,15 +154,30 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
         targetWeaponBobPosition = weaponParentOrigin + new Vector3(Mathf.Cos(c) * xIntensity, Mathf.Sin(c * 2) * yIntensity, 0); 
     }
     
+    // Update current audio clip and play the sfx
     void PlayWalkSFX(bool start){
         if(start){
             if(!audioSource.isPlaying){
+                audioSource.clip = GetSurfaceSoundFX();
                 audioSource.Play();
             }
         }else{
             if(audioSource.isPlaying){
                 audioSource.Pause();
             }
+        }
+    }
+
+    // Return an audio clip based on the current surface you are walking on
+    AudioClip GetSurfaceSoundFX(){
+        switch(surface){
+            case Surface.Concrete:
+                return walkingAudio.concreteWalk[Random.Range(0, walkingAudio.concreteWalk.Length)];
+            case Surface.Dirt:
+                return walkingAudio.dirtWalk[Random.Range(0, walkingAudio.dirtWalk.Length)];
+            default:
+                Debug.Log("No sound effect found");
+                return null;
         }
     }
 }

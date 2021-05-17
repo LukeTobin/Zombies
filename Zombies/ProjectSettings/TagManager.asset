@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Zone
+  - Camera
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - Zone
   - WeaponBuy
   - InvisibleBarrier
-  - 
+  - Weapon
   - 
   - 
   - 
